@@ -1,11 +1,16 @@
-import Image from "next/image";
-import Sidebar from "./components/sidebar";
+"use client";
+import { useProjectContext } from "@/context";
+import Body from "./components/body";
 
 export default function Home() {
+  const { darkmode } = useProjectContext();
   return (
-    <div className="min-h-screen bg-[#F0F8FF] font-[family-name:var(--font-geist-sans)]">
-      <Sidebar />
-      
-    </div>
+    <main
+      className={`min-h-screen ${
+        darkmode ? "bg-darkmodePrimary text-white" : "bg-[#F0F8FF] text-darkmodePrimary"
+      } font-[family-name:var(--font-geist-sans)]`}
+    >
+      <Body />
+    </main>
   );
 }

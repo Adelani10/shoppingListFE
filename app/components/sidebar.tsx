@@ -1,23 +1,34 @@
+"use client";
+
 import { icons, images } from "@/constants";
 import { useProjectContext } from "@/context";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { IoMoonOutline, IoMoonSharp } from "react-icons/io5";
+import { IoMoonOutline, IoMoonSharp, IoRefreshOutline } from "react-icons/io5";
+import { IoMdMenu, IoIosStats } from "react-icons/io";
+import { BsCart3 } from "react-icons/bs";
 
 export default function Sidebar() {
-    console.log(useProjectContext())
-  const { darkmode } = useProjectContext();
+  const { darkmode, setDarkmode } = useProjectContext();
+
 
   return (
-    <div className="h-screen flex flex-col justify-between items-center py-4 w-16 bg-white border">
+    <div
+      className={`h-screen flex flex-col ${
+        darkmode ? "bg-darkmodeSec text-white" : "bg-white text-darkmodePrimary"
+      } justify-between fixed items-center py-4 w-16`}
+    >
       <div className="flex flex-col items-center gap-y-6">
         <Image
           src={images.avatar}
           alt="avatar"
           className="h-8 w-8 object-contain"
         />
-        <button className="h-6 w-6">
+        <button
+          onClick={() => setDarkmode(!darkmode)}
+          className={`${darkmode ? "text-white" : "text-black"} h-6 w-6 `}
+        >
           {darkmode ? (
             <IoMoonOutline className="h-full w-full" />
           ) : (
@@ -27,33 +38,30 @@ export default function Sidebar() {
       </div>
 
       <div className="flex flex-col items-center gap-y-10">
-        <Link href={"/home"} className="h-8 w-full">
-          <Image
-            src={icons.menu}
-            alt="avatar"
-            className="h-full w-8 object-contain"
-          />
+        <Link
+          href={"/home"}
+          className={`${darkmode ? "text-white" : "text-black"} h-8 w-full`}
+        >
+          <IoMdMenu className="h-full w-8 object-contain" />
         </Link>
 
-        <Link href={"/history"} className="h-8 w-full">
-          <Image
-            src={icons.history}
-            alt="avatar"
-            className="h-full w-8 object-contain"
-          />
+        <Link
+          href={"/history"}
+          className={`${darkmode ? "text-white" : "text-black"} h-8 w-full`}
+        >
+          <IoRefreshOutline className="h-full w-8 object-contain" />
         </Link>
 
-        <Link href={"/stats"} className="h-8 w-full">
-          <Image
-            src={icons.stats}
-            alt="avatar"
-            className="h-full w-8 object-contain"
-          />
+        <Link
+          href={"/stats"}
+          className={`${darkmode ? "text-white" : "text-black"} h-8 w-full`}
+        >
+          <IoIosStats className="h-full w-8 object-contain" />
         </Link>
       </div>
 
-      <button className="bg-orange-400 rounded-full">
-        <Image src={icons.cart} alt="cart" className="h-6 w-6" />
+      <button className="bg-orange-400 text-white p-3  rounded-full">
+        <BsCart3 />
       </button>
     </div>
   );

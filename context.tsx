@@ -1,8 +1,9 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
 
 interface AppContextInterface {
   darkmode: boolean;
+  setDarkmode: Dispatch<SetStateAction<boolean>>;
 }
 
 const ProjectContext = createContext<AppContextInterface | null>(null);
@@ -18,8 +19,9 @@ export const useProjectContext = () => {
 const ProjectProvider = ({ children }: any) => {
   const [darkmode, setDarkmode] = useState(false);
 
+
   return (
-    <ProjectContext.Provider value={{ darkmode }}>
+    <ProjectContext.Provider value={{ darkmode, setDarkmode }}>
       {children}
     </ProjectContext.Provider>
   );
