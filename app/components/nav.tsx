@@ -8,9 +8,13 @@ import React from "react";
 import { IoMoonOutline, IoMoonSharp, IoRefreshOutline } from "react-icons/io5";
 import { IoMdMenu, IoIosStats } from "react-icons/io";
 import { BsCart3 } from "react-icons/bs";
+import { usePathname } from "next/navigation";
 
-export default function Sidebar() {
+export default function Nav() {
   const { darkmode, setDarkmode } = useProjectContext();
+  const pathName = usePathname()
+
+  console.log(pathName)
 
 
   return (
@@ -39,7 +43,7 @@ export default function Sidebar() {
 
       <div className="flex flex-col items-center gap-y-10">
         <Link
-          href={"/home"}
+          href={"/"}
           className={`${darkmode ? "text-white" : "text-black"} h-8 w-full`}
         >
           <IoMdMenu className="h-full w-8 object-contain" />

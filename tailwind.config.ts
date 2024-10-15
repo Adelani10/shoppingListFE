@@ -13,6 +13,8 @@ const config: Config = {
         foreground: "var(--foreground)",
         darkmodePrimary: "#15202b",
         darkmodeSec: "#1c2733",
+        // darkmodeTertiary: "#1c2938",
+        darkmodeTertiary: "#22303c",
         butterColor: "#FFF4E1"
       },
     },
