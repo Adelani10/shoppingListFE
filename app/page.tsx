@@ -3,6 +3,9 @@ import { useProjectContext } from "@/context";
 import React, { useState } from "react";
 import { GoSearch } from "react-icons/go";
 import ItemCard from "./components/itemCard";
+
+
+
 export default function Home() {
   const { darkmode } = useProjectContext();
   const [isFocused, setIsFocused] = useState<boolean>(false);

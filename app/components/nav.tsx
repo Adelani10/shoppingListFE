@@ -12,10 +12,9 @@ import { usePathname } from "next/navigation";
 
 export default function Nav() {
   const { darkmode, setDarkmode } = useProjectContext();
-  const pathName = usePathname()
+  const pathName = usePathname();
 
-  console.log(pathName)
-
+  console.log(pathName);
 
   return (
     <div
@@ -41,26 +40,38 @@ export default function Nav() {
         </button>
       </div>
 
-      <div className="flex flex-col items-center gap-y-10">
+      <div className="flex flex-col w-full items-center gap-y-10">
         <Link
           href={"/"}
-          className={`${darkmode ? "text-white" : "text-black"} h-8 w-full`}
+          className={`${darkmode ? "text-white" : "text-black"} ${
+            pathName.endsWith("/")
+              ? "border-l-4 rounded-sm border-orange-400"
+              : "border-none"
+          } h-8 w-full`}
         >
-          <IoMdMenu className="h-full w-8 object-contain" />
+          <IoMdMenu className="h-full w-8 mx-auto object-contain" />
         </Link>
 
         <Link
           href={"/history"}
-          className={`${darkmode ? "text-white" : "text-black"} h-8 w-full`}
+          className={`${darkmode ? "text-white" : "text-black"} ${
+            pathName.startsWith("/history")
+              ? "border-l-4 border-orange-400"
+              : "border-none"
+          }  h-8 w-full`}
         >
-          <IoRefreshOutline className="h-full w-8 object-contain" />
+          <IoRefreshOutline className="h-full w-8 mx-auto object-contain" />
         </Link>
 
         <Link
           href={"/stats"}
-          className={`${darkmode ? "text-white" : "text-black"} h-8 w-full`}
+          className={`${darkmode ? "text-white" : "text-black"} ${
+            pathName.startsWith("/stats")
+              ? "border-l-4 border-orange-400"
+              : "border-none"
+          }  h-8 w-full`}
         >
-          <IoIosStats className="h-full w-8 object-contain" />
+          <IoIosStats className="h-full w-8 mx-auto object-contain" />
         </Link>
       </div>
 
