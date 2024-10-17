@@ -18,8 +18,11 @@ function CheckOut() {
           : "bg-butterColor text-darkmodePrimary"
       } pt-8 right-0 top-0 bottom-0 flex flex-col justify-between `}
     >
-      <div className={`px-6 flex flex-col ${currentList!.length > 0 ? "items-start" : "items-center"} gap-y-12`}>
-
+      <div
+        className={`px-6 flex flex-col ${
+          currentList!.length > 0 ? "items-start gap-y-4" : "items-center gap-y-16"
+        } `}
+      >
         <div className="bg-[#722f37] rounded-xl gap-x-4 flex justify-between h-28">
           <Image
             src={images.source}
@@ -39,39 +42,47 @@ function CheckOut() {
           </article>
         </div>
 
-
         {currentList!.length === 0 ? (
-          <div className="mb-24">
+          <div className="">
             <p className="text-center font-bold">No items</p>
           </div>
         ) : (
-          <div className="text-lg self-start space-y-3 ">
+          <div className="text-lg self-start space-y-3 w-full">
             <h2 className="font-semibold ">Current List</h2>
             {Object.entries(categories).map(([category, items]): any => {
               return (
                 <div
                   key={category}
-                  className="flex flex-col items-start border gap-y-2"
+                  className="flex flex-col items-start  w-full"
                 >
                   <h3 className=" text-gray-400 text-sm capitalize">
                     {category}
                   </h3>
 
-                  <ItemQuantity items={items} />
+                  <div
+                    className={`flex flex-col ${
+                      currentList!.length > 6
+                        ? "text-xs gap-y-0"
+                        : "text-sm gap-y-2"
+                    } w-full `}
+                  >
+                    <ItemQuantity key={category} items={items} />
+                  </div>
                 </div>
               );
             })}
           </div>
         )}
-
       </div>
 
       <div className="flex flex-col items-center">
-        <Image
-          alt="cart-image"
-          src={images.shoppingCart}
-          className="self-center"
-        />
+        {currentList?.length === 0 && (
+          <Image
+            alt="cart-image"
+            src={images.shoppingCart}
+            className="self-center"
+          />
+        )}
 
         <div
           className={`h-24 w-full rounded-t-2xl p-6 ${
