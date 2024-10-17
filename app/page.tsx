@@ -1,14 +1,15 @@
 "use client";
-import { useProjectContext } from "@/context";
+import { dataTypes, useProjectContext } from "@/context";
 import React, { useState } from "react";
 import { GoSearch } from "react-icons/go";
 import ItemCard from "./components/itemCard";
 
-
-
 export default function Home() {
-  const { darkmode } = useProjectContext();
+  const { darkmode, itemsArr, getCategoriesObj } = useProjectContext();
   const [isFocused, setIsFocused] = useState<boolean>(false);
+
+  const categoryObj = getCategoriesObj(itemsArr);
+
   return (
     <main
       className={`min-h-screen ${
@@ -28,6 +29,7 @@ export default function Home() {
             type="text"
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
+            onChange={() => console.log("true")}
             name="search"
             value=""
             placeholder="Search item"
@@ -43,42 +45,16 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col gap-y-12 mr-8">
-        <div className="flex flex-col items-start gap-y-3">
-          <h3 className="text-xl">Fruits & Vegetables</h3>
-          <div className="flex flex-wrap gap-5">
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-          </div>
-        </div>
-        <div className="flex flex-col items-start gap-y-3">
-          <h3 className="text-xl">Proteins</h3>
-          <div className="flex flex-wrap gap-5">
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-          </div>
-        </div>
-        <div className="flex flex-col items-start gap-y-3">
-          <h3 className="text-xl">Beverages</h3>
-          <div className="flex flex-wrap gap-5">
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-            <ItemCard item="Mango" />
-          </div>
-        </div>
+        {Object.entries(categoryObj).map(([category, items]): any => {
+          return (
+            <div key={category} className="flex flex-col items-start gap-y-3">
+              <h3 className="text-xl capitalize">{category}</h3>
+              <div className="flex flex-wrap gap-5">
+                <ItemCard key={category} items={items} />
+              </div>
+            </div>
+          );
+        })}
       </div>
     </main>
   );

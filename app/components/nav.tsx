@@ -14,8 +14,6 @@ export default function Nav() {
   const { darkmode, setDarkmode } = useProjectContext();
   const pathName = usePathname();
 
-  console.log(pathName);
-
   return (
     <div
       className={`h-screen flex flex-col ${

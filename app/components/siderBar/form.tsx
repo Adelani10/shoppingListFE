@@ -24,7 +24,11 @@ function Form() {
           height="24"
         />
         <FormField name="Image" placeholder="Enter a url" height="12" />
-        <FormField name="Category" placeholder="Choose a category" height="12" />
+        <FormField
+          name="Category"
+          placeholder="Choose a category"
+          height="12"
+        />
       </div>
 
       <div className="flex items-center self-center text-lg">
