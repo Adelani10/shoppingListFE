@@ -6,28 +6,31 @@ import {
   useContext,
   useState,
 } from "react";
-import data from "./data.json";
+import data from "./data";
+import { nanoid } from "nanoid";
 
 interface AppContextInterface {
   darkmode: boolean;
   setDarkmode: Dispatch<SetStateAction<boolean>>;
-  itemsArr: dataTypes[];
-  itemToBeAdded: dataTypes | null;
-  setItemToBeAdded: Dispatch<SetStateAction<dataTypes | null>>;
+  itemsArr: mainItemTypes[];
+  itemClickedOn: mainItemTypes | null;
+  setItemClickedOn: Dispatch<SetStateAction<mainItemTypes | null>>;
   isItemClicked: boolean;
   setIsItemClicked: Dispatch<SetStateAction<boolean>>;
   addItem: boolean;
   setAddItem: Dispatch<SetStateAction<boolean>>;
-  currentList: dataTypes[] | null;
-  setCurrentList: Dispatch<SetStateAction<dataTypes[]>>;
-  getCategoriesObj: (arr: dataTypes[]) => any
+  currentList: mainItemTypes[];
+  setCurrentList: Dispatch<SetStateAction<mainItemTypes[]>>;
+  getCategoriesObj: (arr: mainItemTypes[]) => any;
 }
 
-export interface dataTypes {
+export interface mainItemTypes {
+  id: any;
   name: string;
   image: string;
   category: string;
   note: string;
+  quantity: number;
 }
 
 const ProjectContext = createContext<AppContextInterface | null>(null);
@@ -41,16 +44,15 @@ export const useProjectContext = () => {
 };
 
 const ProjectProvider = ({ children }: any) => {
-  const [itemsArr, setItemsArr] = useState<dataTypes[]>(data);
+  const [itemsArr, setItemsArr] = useState<mainItemTypes[]>(data);
   const [darkmode, setDarkmode] = useState<boolean>(false);
-  const [itemToBeAdded, setItemToBeAdded] = useState<dataTypes | null>(null);
+  const [itemClickedOn, setItemClickedOn] = useState<mainItemTypes | null>(null);
   const [isItemClicked, setIsItemClicked] = useState<boolean>(false);
   const [addItem, setAddItem] = useState<boolean>(false);
-  const [currentList, setCurrentList] = useState<dataTypes[]>([])
+  const [currentList, setCurrentList] = useState<mainItemTypes[]>([]);
 
-
-  const getCategoriesObj = (arr: dataTypes[]) => {
-    return arr.reduce((acc: any, cur: dataTypes) => {
+  const getCategoriesObj = (arr: mainItemTypes[]) => {
+    return arr.reduce((acc: any, cur: mainItemTypes) => {
       if (!acc[cur.category]) {
         acc[cur.category] = [];
       }
@@ -65,8 +67,8 @@ const ProjectProvider = ({ children }: any) => {
         darkmode,
         setDarkmode,
         itemsArr,
-        itemToBeAdded,
-        setItemToBeAdded,
+        itemClickedOn,
+        setItemClickedOn,
         isItemClicked,
         setIsItemClicked,
         addItem,
@@ -74,7 +76,6 @@ const ProjectProvider = ({ children }: any) => {
         currentList,
         setCurrentList,
         getCategoriesObj,
-
       }}
     >
       {children}

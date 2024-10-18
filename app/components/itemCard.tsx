@@ -1,13 +1,13 @@
-import { dataTypes, useProjectContext } from "@/context";
+import {  mainItemTypes, useProjectContext } from "@/context";
 import React from "react";
 import { FaPlus } from "react-icons/fa6";
 
 export default function ItemCard({ items }: any) {
-  const { darkmode, setItemToBeAdded, setIsItemClicked } = useProjectContext();
+  const { darkmode, setItemClickedOn, setIsItemClicked } = useProjectContext();
 
   return (
     <>
-      {items.map((item: dataTypes, index: number) => {
+      {items.map((item: mainItemTypes, index: number) => {
         return (
           <div
             key={index}
@@ -18,7 +18,7 @@ export default function ItemCard({ items }: any) {
             <h3 className="text-sm capitalize">{item.name}</h3>
             <button
               onClick={() => {
-                setItemToBeAdded(item);
+                setItemClickedOn(item);
                 setIsItemClicked(true);
               }}
               className="text-gray-400 h-3"

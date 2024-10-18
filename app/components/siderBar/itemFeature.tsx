@@ -9,13 +9,11 @@ function ItemFeature() {
   const [isAddingToList, setIsAddingToList] = useState<boolean>(false);
   const {
     darkmode,
-    itemToBeAdded,
+    itemClickedOn,
     setIsItemClicked,
     setCurrentList,
-    currentList,
   } = useProjectContext();
 
-  console.log(currentList);
   return (
     <section
       className={`w-80 fixed ${
@@ -33,8 +31,8 @@ function ItemFeature() {
       <div className="flex flex-col gap-y-6">
         <div className="w-[85%] h-40 self-center">
           <Image
-            alt={`${itemToBeAdded?.name} image`}
-            src={itemToBeAdded?.image || ""}
+            alt={`${itemClickedOn?.name} image`}
+            src={itemClickedOn?.image || ""}
             className="object-cover h-full w-full rounded-xl"
             width={80}
             height={40}
@@ -42,15 +40,15 @@ function ItemFeature() {
         </div>
         <div className="flex flex-col gap-y-2">
           <p className="text-gray-400 text-xs">name</p>
-          <p className=" text-xl capitalize">{itemToBeAdded?.name}</p>
+          <p className=" text-xl capitalize">{itemClickedOn?.name}</p>
         </div>
         <div className="flex flex-col gap-y-2">
           <p className="text-gray-400 text-xs">category</p>
-          <p className="capitalize">{itemToBeAdded?.category}</p>
+          <p className="capitalize">{itemClickedOn?.category}</p>
         </div>
         <div className="flex flex-col gap-y-2">
           <p className="text-gray-400 text-xs">note</p>
-          <p className="text-xs">{itemToBeAdded?.note}</p>
+          <p className="text-xs">{itemClickedOn?.note}</p>
         </div>
       </div>
 
@@ -65,10 +63,10 @@ function ItemFeature() {
 
         <button
           disabled={isAddingToList === true}
-          onClick={() => {
+          onClick={async () => {
             try {
               setCurrentList((prev: any) => {
-                return [...prev, itemToBeAdded];
+                return [...prev, itemClickedOn];
               });
               setIsAddingToList(true);
               setTimeout(() => {

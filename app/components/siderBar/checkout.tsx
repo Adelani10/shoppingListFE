@@ -3,7 +3,7 @@ import { images } from "@/constants";
 import { useProjectContext } from "@/context";
 import Image from "next/image";
 import React from "react";
-import ItemQuantity from "./itemQuantity";
+import EditQuantity from "./EditQuantity";
 
 function CheckOut() {
   const { darkmode, setAddItem, currentList, getCategoriesObj } =
@@ -66,7 +66,7 @@ function CheckOut() {
                         : "text-sm gap-y-2"
                     } w-full `}
                   >
-                    <ItemQuantity key={category} items={items} />
+                    <EditQuantity key={category} items={items} />
                   </div>
                 </div>
               );
@@ -92,8 +92,8 @@ function CheckOut() {
           <input
             type="text"
             placeholder="Enter a name"
-            className={`border-2 px-4  h-full w-[70%] ${
-              darkmode ? "border-0 bg-darkmodePrimary" : "border-r-0"
+            className={` px-4  h-full w-[70%] ${
+              darkmode ? " bg-darkmodePrimary" : " border-2 border-r-0"
             } rounded-l-xl`}
             name="collection name"
             value={""}
