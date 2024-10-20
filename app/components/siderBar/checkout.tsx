@@ -1,15 +1,72 @@
 "use client";
 import { images } from "@/constants";
-import { useProjectContext } from "@/context";
+import { mainItemTypes, saved, useProjectContext } from "@/context";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EditQuantity from "./EditQuantity";
+import { nanoid } from "nanoid";
 
 function CheckOut() {
-  const { darkmode, setAddItem, currentList, getCategoriesObj } =
-    useProjectContext();
+  const {
+    darkmode,
+    setAddItem,
+    currentList,
+    setCurrentList,
+    getCategoriesObj,
+    savedList,
+  } = useProjectContext();
+  const categories = getCategoriesObj(currentList);
+  const month: number = Math.floor(Math.random() * 10) + 1;
+  const day: number = Math.floor(Math.random() * 31) + 1;
+  const [saved, setSaved] = useState<saved>({
+    id: nanoid(8),
+    title: "",
+    items: [],
+    completed: false,
+    localDate: `2024-${month < 10 ? "0" + month : month}-${
+      day < 10 ? "0" + day : day
+    }`,
+  });
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [failedSave, setFailedSave] = useState<boolean>(false);
 
-  const categories = getCategoriesObj(currentList!);
+  console.log(savedList);
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const updatedSaved = {
+        ...saved,
+        items: [...currentList],
+      };
+
+      // setSaved
+
+      if (currentList.length > 0 && updatedSaved.title) {
+        savedList.push(updatedSaved);
+      } else {
+        setFailedSave(true);
+        setTimeout(() => setFailedSave(false), 4000);
+        return;
+      }
+    } catch (error: any) {
+      throw new Error("error", error);
+    } finally {
+      setIsSaving(false);
+    }
+
+    setCurrentList([]);
+    setSaved({
+      id: nanoid(8),
+      title: "",
+      items: [],
+      completed: false,
+      localDate: `2024-${month < 10 ? "0" + month : month}-${
+        day < 10 ? "0" + day : day
+      }`,
+    });
+  };
+
   return (
     <section
       className={`w-80 fixed ${
@@ -20,7 +77,9 @@ function CheckOut() {
     >
       <div
         className={`px-6 flex flex-col ${
-          currentList!.length > 0 ? "items-start gap-y-4" : "items-center gap-y-16"
+          currentList!.length > 0
+            ? "items-start gap-y-4"
+            : "items-center gap-y-16"
         } `}
       >
         <div className="bg-[#722f37] rounded-xl gap-x-4 flex justify-between h-28">
@@ -76,35 +135,68 @@ function CheckOut() {
       </div>
 
       <div className="flex flex-col items-center">
-        {currentList?.length === 0 && (
+        {currentList?.length === 0 ? (
           <Image
             alt="cart-image"
             src={images.shoppingCart}
             className="self-center"
           />
+        ) : (
+          <div className="flex items-center gap-x-1 mb-3">
+            <input
+              type="checkbox"
+              name="completed"
+              checked={saved.completed}
+              onChange={(e) =>
+                setSaved((prev: any) => {
+                  return {
+                    ...prev,
+                    completed: e.target.checked,
+                  };
+                })
+              }
+              className=""
+            />
+            <label className="font-bold">Sorted & Completed</label>
+          </div>
         )}
 
         <div
           className={`h-24 w-full rounded-t-2xl p-6 ${
             darkmode ? "bg-darkmodeTertiary" : "bg-white"
-          } flex items-center `}
+          } `}
         >
-          <input
-            type="text"
-            placeholder="Enter a name"
-            className={` px-4  h-full w-[70%] ${
-              darkmode ? " bg-darkmodePrimary" : " border-2 border-r-0"
-            } rounded-l-xl`}
-            name="collection name"
-            value={""}
-            onChange={() => console.log("yes")}
-          />
-          <button
-            // disabled
-            className="h-full bg-orange-400 -ml-2 text-white font-bold w-[30%] rounded-xl disabled:bg-gray-400"
-          >
-            Save
-          </button>
+          <div className="flex items-center h-full w-full">
+            <input
+              type="text"
+              placeholder="Enter a name"
+              className={` px-4  h-full w-[70%] ${
+                darkmode ? " bg-darkmodePrimary" : " border-2 border-r-0"
+              } rounded-l-xl`}
+              name="collection name"
+              value={saved.title}
+              onChange={(e) =>
+                setSaved((prev: any) => {
+                  return {
+                    ...prev,
+                    title: e.target.value,
+                  };
+                })
+              }
+            />
+            <button
+              disabled={isSaving === true || currentList.length < 1}
+              onClick={() => handleSave()}
+              className="h-full bg-orange-400 -ml-2 text-white font-bold w-[30%] rounded-xl disabled:bg-gray-400"
+            >
+              Save
+            </button>
+          </div>
+          {failedSave && (
+            <p className="text-[10px] text-center text-red-500">
+              Please provide a name or populate your current list
+            </p>
+          )}
         </div>
       </div>
     </section>

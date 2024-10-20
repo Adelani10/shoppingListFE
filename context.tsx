@@ -7,7 +7,6 @@ import {
   useState,
 } from "react";
 import data from "./data";
-import { nanoid } from "nanoid";
 
 interface AppContextInterface {
   darkmode: boolean;
@@ -22,6 +21,7 @@ interface AppContextInterface {
   currentList: mainItemTypes[];
   setCurrentList: Dispatch<SetStateAction<mainItemTypes[]>>;
   getCategoriesObj: (arr: mainItemTypes[]) => any;
+  savedList: saved[]
 }
 
 export interface mainItemTypes {
@@ -31,6 +31,14 @@ export interface mainItemTypes {
   category: string;
   note: string;
   quantity: number;
+}
+
+export interface saved {
+  id: any
+  title: string;
+  items: mainItemTypes[];
+  completed: boolean
+  localDate: string;
 }
 
 const ProjectContext = createContext<AppContextInterface | null>(null);
@@ -50,6 +58,7 @@ const ProjectProvider = ({ children }: any) => {
   const [isItemClicked, setIsItemClicked] = useState<boolean>(false);
   const [addItem, setAddItem] = useState<boolean>(false);
   const [currentList, setCurrentList] = useState<mainItemTypes[]>([]);
+  const [savedList, setSavedList] = useState<saved[]>([])
 
   const getCategoriesObj = (arr: mainItemTypes[]) => {
     return arr.reduce((acc: any, cur: mainItemTypes) => {
@@ -76,6 +85,7 @@ const ProjectProvider = ({ children }: any) => {
         currentList,
         setCurrentList,
         getCategoriesObj,
+        savedList
       }}
     >
       {children}

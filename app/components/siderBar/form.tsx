@@ -3,7 +3,7 @@ import FormField from "../formField";
 import { useProjectContext } from "@/context";
 
 function Form() {
-  const { darkmode } = useProjectContext();
+  const { darkmode, setIsItemClicked, setAddItem } = useProjectContext();
   return (
     <section
       className={`w-80 fixed ${
@@ -32,7 +32,15 @@ function Form() {
       </div>
 
       <div className="flex items-center self-center text-lg">
-        <button className="p-3 text-sm font-semibold ">cancel</button>
+        <button
+          onClick={() => {
+            setIsItemClicked(false);
+            setAddItem(false);
+          }}
+          className="p-3 text-sm font-semibold "
+        >
+          cancel
+        </button>
         <button className="text-white rounded-xl font-semibold p-3 text-sm bg-orange-400">
           Save & Send
         </button>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import CheckOut from "./checkout";
@@ -7,8 +7,7 @@ import Form from "./form";
 import { useProjectContext } from "@/context";
 
 function Render() {
-
-  const {isItemClicked, addItem} = useProjectContext()
+  const { isItemClicked, addItem } = useProjectContext();
 
   return (
     <>
