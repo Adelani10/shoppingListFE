@@ -10,7 +10,7 @@ function Form() {
         darkmode
           ? "bg-darkmodeSec text-white"
           : "bg-[#F0F8FF] text-darkmodePrimary"
-      } p-8 right-0 top-0 bottom-0 w-screen-minus-16 flex flex-col justify-between `}
+      } p-8 right-0 top-0 bottom-0 z-50 w-screen-minus-16 flex flex-col justify-between `}
     >
       <div>
         <h1 className="font-semibold">Add a new Item</h1>

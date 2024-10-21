@@ -21,7 +21,7 @@ function HistoryId({ item }: any) {
     >
       <p className="capitalize">{title}</p>
       <div className="flex items-center sm:gap-x-1 lg:gap-x-5 gap-x-5">
-        <div className="text-gray-400 sm:hidden flex gap-x-1 md:flex items-center">
+        <div className="text-gray-400 hidden gap-x-1 md:flex items-center">
           <MdCalendarMonth className="text-lg" />
           <p>{`${weekdays[date.getDay()].slice(
             0,

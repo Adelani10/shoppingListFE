@@ -70,7 +70,7 @@ function CheckOut() {
         darkmode
           ? "bg-darkmodeSec text-white"
           : "bg-butterColor text-darkmodePrimary"
-      } pt-8 right-0 top-0 bottom-0 w-screen-minus-16 flex flex-col justify-between `}
+      } pt-8 right-0 top-0 z-50 bottom-0 w-screen-minus-16 flex flex-col justify-between `}
     >
       <div
         className={`px-6 flex flex-col ${

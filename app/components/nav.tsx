@@ -96,7 +96,14 @@ export default function Nav() {
         </Link>
       </div>
 
-      <button onClick={() => setShowCheckout(!showCheckout)} className="bg-orange-400 relative text-white p-3  rounded-full">
+      <button
+        onClick={() => {
+          setIsItemClicked(false);
+          setAddItem(false);
+          setShowCheckout(!showCheckout);
+        }}
+        className="bg-orange-400 relative text-white p-3  rounded-full"
+      >
         <BsCart3 />
 
         {currentList.length > 0 && (
