@@ -22,6 +22,7 @@ interface AppContextInterface {
   setCurrentList: Dispatch<SetStateAction<mainItemTypes[]>>;
   getCategoriesObj: (arr: mainItemTypes[]) => any;
   savedList: saved[]
+  weekdays: string[]
 }
 
 export interface mainItemTypes {
@@ -59,6 +60,15 @@ const ProjectProvider = ({ children }: any) => {
   const [addItem, setAddItem] = useState<boolean>(false);
   const [currentList, setCurrentList] = useState<mainItemTypes[]>([]);
   const [savedList, setSavedList] = useState<saved[]>([])
+  const weekdays: string[] = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   const getCategoriesObj = (arr: mainItemTypes[]) => {
     return arr.reduce((acc: any, cur: mainItemTypes) => {
@@ -85,7 +95,8 @@ const ProjectProvider = ({ children }: any) => {
         currentList,
         setCurrentList,
         getCategoriesObj,
-        savedList
+        savedList,
+        weekdays
       }}
     >
       {children}

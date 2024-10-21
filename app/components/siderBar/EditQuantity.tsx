@@ -74,7 +74,7 @@ function EditQuantity({ items }: any) {
 
               <button
                 onClick={() => setToBeEdited(!toBeEdited)}
-                className={`px-2 ${
+                className={`p-2 w-16 flex justify-center items-center ${
                   darkmode ? "" : "border border-orange-400"
                 }  h-full ${
                   toBeEdited ? "rounded-lg mr-2" : "rounded-xl"

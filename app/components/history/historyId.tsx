@@ -5,25 +5,38 @@ import { MdCalendarMonth } from "react-icons/md";
 import { GrFormNext } from "react-icons/gr";
 import Link from "next/link";
 
-function HistoryId() {
-  const { darkmode } = useProjectContext();
-  const id = 123
+function HistoryId({ item }: any) {
+  const { darkmode, weekdays } = useProjectContext();
+  const { id, completed, title, items, localDate } = item;
+  
+
+  const date = new Date(localDate);
+
   return (
     <Link
-    href={`/history/${id}`}
+      href={`/history/${id}`}
       className={`${
         darkmode ? "bg-darkmodeTertiary" : "bg-white"
       } flex items-center font-semibold rounded-lg justify-between p-6 py-4`}
     >
-      <p className="">Ola's birthday party</p>
+      <p className="capitalize">{title}</p>
       <div className="flex items-center gap-x-5">
         <div className="text-gray-400 gap-x-1 flex items-center">
           <MdCalendarMonth className="text-lg" />
-          <p>Sat 29.10.2022</p>
+          <p>{`${weekdays[date.getDay()].slice(
+            0,
+            3
+          )} ${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`}</p>
         </div>
 
-        <h3 className="p-1 rounded-lg text-sky-400 border text-xs border-sky-400">
-          completed
+        <h3
+          className={`w-20 text-center p-1 rounded-lg ${
+            completed
+              ? "text-sky-400 border-sky-400"
+              : "text-gray-400 border-gray-400"
+          }  border text-xs `}
+        >
+          {completed ? "completed" : "open"}
         </h3>
 
         <button className="text-xl font-bold text-orange-400">

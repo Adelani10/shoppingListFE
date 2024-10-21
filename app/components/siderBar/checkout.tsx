@@ -17,7 +17,7 @@ function CheckOut() {
   } = useProjectContext();
   const categories = getCategoriesObj(currentList);
   const month: number = Math.floor(Math.random() * 10) + 1;
-  const day: number = Math.floor(Math.random() * 31) + 1;
+  const day: number = Math.floor(Math.random() * 31) + 1
   const [saved, setSaved] = useState<saved>({
     id: nanoid(8),
     title: "",
@@ -30,8 +30,6 @@ function CheckOut() {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [failedSave, setFailedSave] = useState<boolean>(false);
 
-  console.log(savedList);
-
   const handleSave = async () => {
     setIsSaving(true);
     try {
@@ -39,8 +37,6 @@ function CheckOut() {
         ...saved,
         items: [...currentList],
       };
-
-      // setSaved
 
       if (currentList.length > 0 && updatedSaved.title) {
         savedList.push(updatedSaved);
