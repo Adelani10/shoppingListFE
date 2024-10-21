@@ -1,4 +1,4 @@
-import {  mainItemTypes, useProjectContext } from "@/context";
+import { mainItemTypes, useProjectContext } from "@/context";
 import React from "react";
 import { FaPlus } from "react-icons/fa6";
 
@@ -7,13 +7,13 @@ export default function ItemCard({ items }: any) {
 
   return (
     <>
-      {items.map((item: mainItemTypes, index: number) => {
+      {items.map((item: mainItemTypes) => {
         return (
           <div
-            key={index}
+            key={item.id}
             className={`${
               !darkmode ? "bg-white" : "bg-darkmodeTertiary"
-            } w-36 flex justify-between items-center px-2 py-1 rounded-lg h-10`}
+            } md:w-36 w-full flex justify-between items-center px-2 py-1 rounded-lg h-10`}
           >
             <h3 className="text-sm capitalize">{item.name}</h3>
             <button

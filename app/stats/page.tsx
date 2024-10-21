@@ -10,7 +10,7 @@ function Stats() {
         darkmode
           ? "bg-darkmodePrimary text-white"
           : "bg-[#F0F8FF] text-darkmodePrimary"
-      } py-8 pl-24 space-y-8 pr-80 font-[family-name:var(--font-geist-sans)]`}
+      } py-8 md:pl-24 pl-20 space-y-8  sm:pr-80 font-[family-name:var(--font-geist-sans)]`}
     >
       <h1 className="text-xl max-w-[40%] font-semibold">
         <span className="text-orange-400 ">Shoppingify</span> allows you to take

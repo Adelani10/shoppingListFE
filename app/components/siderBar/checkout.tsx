@@ -14,6 +14,7 @@ function CheckOut() {
     setCurrentList,
     getCategoriesObj,
     savedList,
+    setShowCheckout
   } = useProjectContext();
   const categories = getCategoriesObj(currentList);
   const month: number = Math.floor(Math.random() * 10) + 1;
@@ -65,11 +66,11 @@ function CheckOut() {
 
   return (
     <section
-      className={`w-80 fixed ${
+      className={`sm:w-80 fixed ${
         darkmode
           ? "bg-darkmodeSec text-white"
           : "bg-butterColor text-darkmodePrimary"
-      } pt-8 right-0 top-0 bottom-0 flex flex-col justify-between `}
+      } pt-8 right-0 top-0 bottom-0 w-screen-minus-16 flex flex-col justify-between `}
     >
       <div
         className={`px-6 flex flex-col ${
@@ -89,7 +90,10 @@ function CheckOut() {
               Didn't find what you need?
             </h3>
             <button
-              onClick={() => setAddItem(true)}
+              onClick={() => {
+                setAddItem(true)
+                setShowCheckout(false)
+              }}
               className="text-darkmodePrimary bg-white font-semibold py-1 px-4 rounded-lg"
             >
               Add Item

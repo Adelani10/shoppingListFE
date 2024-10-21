@@ -12,13 +12,14 @@ function ItemFeature() {
     itemClickedOn,
     setIsItemClicked,
     setCurrentList,
+    setShowCheckout,
   } = useProjectContext();
 
   return (
     <section
-      className={`w-80 fixed ${
+      className={`sm:w-80 fixed ${
         darkmode ? "bg-darkmodeSec text-white" : "bg-white text-darkmodePrimary"
-      } p-7 right-0 top-0 bottom-0 flex flex-col justify-between `}
+      } p-7 right-0 top-0 bottom-0 w-screen-minus-16 flex flex-col justify-between `}
     >
       <button
         className="text-orange-400 flex items-center gap-x-2"
@@ -72,6 +73,7 @@ function ItemFeature() {
               setTimeout(() => {
                 setIsItemClicked(false);
                 setIsAddingToList(false);
+                setShowCheckout(true);
               }, 2000);
             } catch (error) {
               console.log(error);

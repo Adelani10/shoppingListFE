@@ -11,14 +11,22 @@ import { BsCart3 } from "react-icons/bs";
 import { usePathname } from "next/navigation";
 
 export default function Nav() {
-  const { darkmode, setDarkmode, currentList } = useProjectContext();
+  const {
+    darkmode,
+    setDarkmode,
+    setAddItem,
+    setIsItemClicked,
+    showCheckout,
+    setShowCheckout,
+    currentList,
+  } = useProjectContext();
   const pathName = usePathname();
 
   return (
     <div
       className={`h-screen flex flex-col ${
         darkmode ? "bg-darkmodeSec text-white" : "bg-white text-darkmodePrimary"
-      } justify-between fixed items-center py-4 w-16`}
+      } justify-between fixed items-center h-screen py-4 w-16`}
     >
       <div className="flex flex-col items-center gap-y-6">
         <Image
@@ -40,6 +48,11 @@ export default function Nav() {
 
       <div className="flex flex-col w-full items-center gap-y-10">
         <Link
+          onClick={() => {
+            setIsItemClicked(false);
+            setAddItem(false);
+            setShowCheckout(false);
+          }}
           href={"/"}
           className={`${darkmode ? "text-white" : "text-black"} ${
             pathName.endsWith("/")
@@ -51,6 +64,11 @@ export default function Nav() {
         </Link>
 
         <Link
+          onClick={() => {
+            setIsItemClicked(false);
+            setAddItem(false);
+            setShowCheckout(false);
+          }}
           href={"/history"}
           className={`${darkmode ? "text-white" : "text-black"} ${
             pathName.startsWith("/history")
@@ -62,6 +80,11 @@ export default function Nav() {
         </Link>
 
         <Link
+          onClick={() => {
+            setIsItemClicked(false);
+            setAddItem(false);
+            setShowCheckout(false);
+          }}
           href={"/stats"}
           className={`${darkmode ? "text-white" : "text-black"} ${
             pathName.startsWith("/stats")
@@ -73,11 +96,13 @@ export default function Nav() {
         </Link>
       </div>
 
-      <button className="bg-orange-400 relative text-white p-3  rounded-full">
+      <button onClick={() => setShowCheckout(!showCheckout)} className="bg-orange-400 relative text-white p-3  rounded-full">
         <BsCart3 />
 
         {currentList.length > 0 && (
-          <p className="absolute top-0 w-4 font-bold flex justify-center items-center h-4 rounded-md text-[8px] bg-red-600 right-0">{currentList.length}</p>
+          <p className="absolute top-0 w-4 font-bold flex justify-center items-center h-4 rounded-md text-[8px] bg-red-600 right-0">
+            {currentList.length}
+          </p>
         )}
       </button>
     </div>

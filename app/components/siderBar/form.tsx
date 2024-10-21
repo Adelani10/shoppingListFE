@@ -3,14 +3,14 @@ import FormField from "../formField";
 import { useProjectContext } from "@/context";
 
 function Form() {
-  const { darkmode, setIsItemClicked, setAddItem } = useProjectContext();
+  const { darkmode, setIsItemClicked, setAddItem, setShowCheckout } = useProjectContext();
   return (
     <section
-      className={`w-80 fixed ${
+      className={`sm:w-80 fixed ${
         darkmode
           ? "bg-darkmodeSec text-white"
           : "bg-[#F0F8FF] text-darkmodePrimary"
-      } p-8 right-0 top-0 bottom-0 flex flex-col justify-between `}
+      } p-8 right-0 top-0 bottom-0 w-screen-minus-16 flex flex-col justify-between `}
     >
       <div>
         <h1 className="font-semibold">Add a new Item</h1>
@@ -36,6 +36,7 @@ function Form() {
           onClick={() => {
             setIsItemClicked(false);
             setAddItem(false);
+            setShowCheckout(true)
           }}
           className="p-3 text-sm font-semibold "
         >

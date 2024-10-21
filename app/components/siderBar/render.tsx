@@ -7,14 +7,18 @@ import Form from "./form";
 import { useProjectContext } from "@/context";
 
 function Render() {
-  const { isItemClicked, addItem } = useProjectContext();
+  const { isItemClicked, addItem, showCheckout } = useProjectContext();
 
   return (
-    <>
-      <CheckOut />
+    <section
+      className={`${
+        isItemClicked || addItem || showCheckout ? "inline-block" : "hidden sm:inline-block"
+      } sm:flex flex-col"`}
+    >
+      {!isItemClicked && !addItem && <CheckOut />}
       {isItemClicked && <ItemFeature />}
       {addItem && <Form />}
-    </>
+    </section>
   );
 }
 

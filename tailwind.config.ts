@@ -17,6 +17,9 @@ const config: Config = {
         darkmodeTertiary: "#22303c",
         butterColor: "#FFF4E1"
       },
+      width: {
+        'screen-minus-16': 'calc(100vw - 4rem)'
+      }
     },
   },
   plugins: [],

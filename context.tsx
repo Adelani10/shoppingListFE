@@ -23,6 +23,8 @@ interface AppContextInterface {
   getCategoriesObj: (arr: mainItemTypes[]) => any;
   savedList: saved[]
   weekdays: string[]
+  showCheckout: boolean
+  setShowCheckout: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface mainItemTypes {
@@ -60,6 +62,7 @@ const ProjectProvider = ({ children }: any) => {
   const [addItem, setAddItem] = useState<boolean>(false);
   const [currentList, setCurrentList] = useState<mainItemTypes[]>([]);
   const [savedList, setSavedList] = useState<saved[]>([])
+  const [showCheckout, setShowCheckout] = useState<boolean>(false)
   const weekdays: string[] = [
     "Sunday",
     "Monday",
@@ -96,7 +99,9 @@ const ProjectProvider = ({ children }: any) => {
         setCurrentList,
         getCategoriesObj,
         savedList,
-        weekdays
+        weekdays,
+        showCheckout,
+        setShowCheckout
       }}
     >
       {children}

@@ -17,11 +17,11 @@ function HistoryId({ item }: any) {
       href={`/history/${id}`}
       className={`${
         darkmode ? "bg-darkmodeTertiary" : "bg-white"
-      } flex items-center font-semibold rounded-lg justify-between p-6 py-4`}
+      } flex items-center font-semibold rounded-lg justify-between sm:p-3 md:p-6 p-2 py-4`}
     >
       <p className="capitalize">{title}</p>
-      <div className="flex items-center gap-x-5">
-        <div className="text-gray-400 gap-x-1 flex items-center">
+      <div className="flex items-center sm:gap-x-1 lg:gap-x-5 gap-x-5">
+        <div className="text-gray-400 sm:hidden flex gap-x-1 md:flex items-center">
           <MdCalendarMonth className="text-lg" />
           <p>{`${weekdays[date.getDay()].slice(
             0,
