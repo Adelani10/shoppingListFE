@@ -4,6 +4,7 @@ import {
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import data from "./data";
@@ -93,33 +94,35 @@ const ProjectProvider = ({ children }: any) => {
     savedList.forEach((list) => {
       list.items.forEach((item) => {
         const itemName = item.name;
-        map.set(itemName, (map.get(itemName) || 0) + 1);
+        const itemQty = item.quantity;
+        map.set(itemName, (map.get(itemName) || 0) + itemQty);
       });
     });
-
     const sortedItems = [...map.entries()]
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 5);
-
+      .slice(0, 3);
     return Object.fromEntries(sortedItems);
   };
 
   const getTopCategories = () => {
     const map: any = new Map();
-
     savedList.forEach((list) => {
       list.items.forEach((item) => {
         const categoryName = item.category;
-        map.set(categoryName, (map.get(categoryName) || 0) + 1);
+        const categoryQty = item.quantity;
+        map.set(categoryName, (map.get(categoryName) || 0) + categoryQty);
       });
     });
-
     const sortedCats = [...map.entries()]
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 5);
-
+      .slice(0, 3);
     return Object.fromEntries(sortedCats);
   };
+
+  useEffect(() => {
+    getTopItems()
+    getTopCategories()
+  }, [savedList])
 
   return (
     <ProjectContext.Provider
