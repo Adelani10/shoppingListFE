@@ -12,7 +12,7 @@ function History() {
         darkmode
           ? "bg-darkmodePrimary text-white"
           : "bg-[#F0F8FF] text-darkmodePrimary"
-      } py-8 md:pl-24 pl-20 space-y-8  sm:pr-80 font-[family-name:var(--font-geist-sans)]`}
+      } py-8 md:pl-24 pl-20 space-y-8 h-screen overflow-y-scroll sm:pr-80 font-[family-name:var(--font-geist-sans)]`}
     >
       <div className="md:mr-8 mr-4 space-y-8">
         <h1 className="text-xl font-semibold">Shopping history</h1>

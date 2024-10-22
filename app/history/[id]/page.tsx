@@ -34,7 +34,7 @@ function HistoryDetails() {
         darkmode
           ? "bg-darkmodePrimary text-white"
           : "bg-[#F0F8FF] text-darkmodePrimary"
-      } py-8 md:pl-24 pl-20 space-y-8 sm:pr-80 font-[family-name:var(--font-geist-sans)]`}
+      } py-8 md:pl-24 pl-20 space-y-8 h-screen overflow-y-scroll sm:pr-80 font-[family-name:var(--font-geist-sans)]`}
     >
       <div className="md:mr-8 mr-4 space-y-8">
         <Link
@@ -60,7 +60,10 @@ function HistoryDetails() {
         <div className="flex flex-col w-full gap-y-12">
           {Object.entries(categories).map(([category, items]): any => {
             return (
-              <div key={category} className="flex flex-col w-full items-start gap-y-3">
+              <div
+                key={category}
+                className="flex flex-col w-full items-start gap-y-3"
+              >
                 <h3 className="text-xl capitalize">{category}</h3>
                 <div className="flex flex-wrap w-full gap-5">
                   <HistoryItemCard items={items} />

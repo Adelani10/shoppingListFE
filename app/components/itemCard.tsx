@@ -3,7 +3,8 @@ import React from "react";
 import { FaPlus } from "react-icons/fa6";
 
 export default function ItemCard({ items }: any) {
-  const { darkmode, setItemClickedOn, setIsItemClicked } = useProjectContext();
+  const { darkmode, setItemClickedOn, setIsItemClicked, currentList } =
+    useProjectContext();
 
   return (
     <>

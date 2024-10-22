@@ -16,7 +16,7 @@ export default function Home() {
         darkmode
           ? "bg-darkmodePrimary text-white"
           : "bg-[#F0F8FF] text-darkmodePrimary"
-      } py-8 md:pl-24 pl-20 space-y-8  sm:pr-80 font-[family-name:var(--font-geist-sans)]`}
+      } py-8 md:pl-24 pl-20 space-y-8 h-screen overflow-y-scroll  sm:pr-80 font-[family-name:var(--font-geist-sans)]`}
     >
       <div className="flex flex-col md:mr-8 mr-4 gap-y-2 md:gap-y-0 md:flex-row md:justify-between items-center">
         <h1 className="md:text-xl text-lg md:w-[40%] w-full font-semibold">

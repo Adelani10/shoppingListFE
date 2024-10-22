@@ -10,6 +10,7 @@ function ItemFeature() {
   const {
     darkmode,
     itemClickedOn,
+    currentList,
     setIsItemClicked,
     setCurrentList,
     setShowCheckout,
@@ -66,15 +67,25 @@ function ItemFeature() {
           disabled={isAddingToList === true}
           onClick={async () => {
             try {
-              setCurrentList((prev: any) => {
-                return [...prev, itemClickedOn];
+              const containsItemAlready = currentList.some((item) => {
+                console.log(item.id);
+                console.log(itemClickedOn!.id);
+                return item.id === itemClickedOn?.id;
               });
+
+              if (!containsItemAlready) {
+                setCurrentList((prev: any) => {
+                  return [...prev, itemClickedOn];
+                });
+              } else {
+                console.log("something went wrong");
+              }
               setIsAddingToList(true);
               setTimeout(() => {
                 setIsItemClicked(false);
                 setIsAddingToList(false);
                 setShowCheckout(true);
-              }, 2000);
+              }, 1000);
             } catch (error) {
               console.log(error);
             }

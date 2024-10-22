@@ -21,10 +21,12 @@ interface AppContextInterface {
   currentList: mainItemTypes[];
   setCurrentList: Dispatch<SetStateAction<mainItemTypes[]>>;
   getCategoriesObj: (arr: mainItemTypes[]) => any;
-  savedList: saved[]
-  weekdays: string[]
-  showCheckout: boolean
+  savedList: saved[];
+  weekdays: string[];
+  showCheckout: boolean;
   setShowCheckout: Dispatch<SetStateAction<boolean>>;
+  getTopItems: () => any;
+  getTopCategories: () => any;
 }
 
 export interface mainItemTypes {
@@ -37,10 +39,10 @@ export interface mainItemTypes {
 }
 
 export interface saved {
-  id: any
+  id: any;
   title: string;
   items: mainItemTypes[];
-  completed: boolean
+  completed: boolean;
   localDate: string;
 }
 
@@ -57,12 +59,14 @@ export const useProjectContext = () => {
 const ProjectProvider = ({ children }: any) => {
   const [itemsArr, setItemsArr] = useState<mainItemTypes[]>(data);
   const [darkmode, setDarkmode] = useState<boolean>(false);
-  const [itemClickedOn, setItemClickedOn] = useState<mainItemTypes | null>(null);
+  const [itemClickedOn, setItemClickedOn] = useState<mainItemTypes | null>(
+    null
+  );
   const [isItemClicked, setIsItemClicked] = useState<boolean>(false);
   const [addItem, setAddItem] = useState<boolean>(false);
   const [currentList, setCurrentList] = useState<mainItemTypes[]>([]);
-  const [savedList, setSavedList] = useState<saved[]>([])
-  const [showCheckout, setShowCheckout] = useState<boolean>(false)
+  const [savedList, setSavedList] = useState<saved[]>([]);
+  const [showCheckout, setShowCheckout] = useState<boolean>(false);
   const weekdays: string[] = [
     "Sunday",
     "Monday",
@@ -83,6 +87,40 @@ const ProjectProvider = ({ children }: any) => {
     }, {});
   };
 
+  const getTopItems = () => {
+    const map: any = new Map();
+
+    savedList.forEach((list) => {
+      list.items.forEach((item) => {
+        const itemName = item.name;
+        map.set(itemName, (map.get(itemName) || 0) + 1);
+      });
+    });
+
+    const sortedItems = [...map.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+
+    return Object.fromEntries(sortedItems);
+  };
+
+  const getTopCategories = () => {
+    const map: any = new Map();
+
+    savedList.forEach((list) => {
+      list.items.forEach((item) => {
+        const categoryName = item.category;
+        map.set(categoryName, (map.get(categoryName) || 0) + 1);
+      });
+    });
+
+    const sortedCats = [...map.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+
+    return Object.fromEntries(sortedCats);
+  };
+
   return (
     <ProjectContext.Provider
       value={{
@@ -101,7 +139,9 @@ const ProjectProvider = ({ children }: any) => {
         savedList,
         weekdays,
         showCheckout,
-        setShowCheckout
+        setShowCheckout,
+        getTopItems,
+        getTopCategories,
       }}
     >
       {children}
