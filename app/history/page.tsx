@@ -25,8 +25,6 @@ function History() {
       return acc;
     }, {});
 
-  console.log(sortedGroupedLists);
-
   return (
     <main
       className={`min-h-screen ${
@@ -44,9 +42,11 @@ function History() {
               return (
                 <div key={monthYear} className="flex flex-col gap-y-3">
                   <h4 className="text-sm font-semibold">{monthYear}</h4>
-                  {sortedGroupedLists[monthYear].map((item: any) => {
-                    return <HistoryId key={item.id} item={item} />;
-                  })}
+                  {sortedGroupedLists[monthYear].map(
+                    (item: any) => {
+                      return <HistoryId key={item.id} item={item} />;
+                    }
+                  )}
                 </div>
               );
             })}

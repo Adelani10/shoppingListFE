@@ -28,7 +28,10 @@ interface AppContextInterface {
   setShowCheckout: Dispatch<SetStateAction<boolean>>;
   getTopItems: () => any;
   getTopCategories: () => any;
-  groupedLists: any
+  groupedLists: any;
+  totalsByMonth: any;
+  total: (data: any) => number;
+  dataForGraph: any;
 }
 
 export interface mainItemTypes {
@@ -78,6 +81,27 @@ const ProjectProvider = ({ children }: any) => {
     "Friday",
     "Saturday",
   ];
+
+  const total = (data: any) =>
+    Object.values(data).reduce((acc: number, cur: any) => acc + cur, 0);
+
+  const totalsByMonth = savedList.reduce((acc: any, cur: saved) => {
+    const [year, month, day] = cur.localDate.split("-");
+    const monthYear = new Date(
+      parseInt(year),
+      parseInt(month) - 1
+    ).toLocaleString("default", {
+      month: "short",
+      year: "numeric"
+    });
+
+    if (!acc[monthYear]) {
+      acc[monthYear] = 0;
+    }
+
+    acc[monthYear] += cur.items.length;
+    return acc;
+  }, {});
 
   const groupedLists = savedList.reduce((acc: any, cur: saved) => {
     const [year, month, day] = cur.localDate.split("-");
@@ -138,10 +162,36 @@ const ProjectProvider = ({ children }: any) => {
     return Object.fromEntries(sortedCats);
   };
 
+  const sortedTotalsByMonth = Object.keys(totalsByMonth)
+    .sort((a, b) => {
+      const [monthA, yearA] = a.split(" ");
+      const [monthB, yearB] = b.split(" ");
+
+      const monthToNumber = (month: any) =>
+        new Date(Date.parse(`${month} 1, 1970`)).getMonth();
+
+      const yearDifference = parseInt(yearA) - parseInt(yearB);
+      if (yearDifference === 0) {
+        return monthToNumber(monthA) - monthToNumber(monthB);
+      }
+      return yearDifference;
+    })
+    .reduce((acc: any, key: any) => {
+      acc[key] = totalsByMonth[key];
+      return acc;
+    }, {});
+
+  const dataForGraph = Object.entries(sortedTotalsByMonth).map(
+    ([monthYear, totalItems]) => ({
+      monthYear,
+      totalItems,
+    })
+  );
+
   useEffect(() => {
-    getTopItems()
-    getTopCategories()
-  }, [savedList])
+    getTopItems();
+    getTopCategories();
+  }, [savedList]);
 
   return (
     <ProjectContext.Provider
@@ -164,7 +214,10 @@ const ProjectProvider = ({ children }: any) => {
         setShowCheckout,
         getTopItems,
         getTopCategories,
-        groupedLists
+        groupedLists,
+        totalsByMonth,
+        total,
+        dataForGraph,
       }}
     >
       {children}

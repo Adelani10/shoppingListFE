@@ -68,8 +68,6 @@ function ItemFeature() {
           onClick={async () => {
             try {
               const containsItemAlready = currentList.some((item) => {
-                console.log(item.id);
-                console.log(itemClickedOn!.id);
                 return item.id === itemClickedOn?.id;
               });
 
