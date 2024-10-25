@@ -1,10 +1,31 @@
 "use client";
-import { useProjectContext } from "@/context";
+import { mainItemTypes, saved, useProjectContext } from "@/context";
 import React from "react";
 import HistoryId from "../components/history/historyId";
 
 function History() {
-  const { darkmode, savedList } = useProjectContext();
+  const { darkmode, savedList, groupedLists } = useProjectContext();
+
+  const sortedGroupedLists = Object.keys(groupedLists)
+    .sort((a, b) => {
+      const [monthA, yearA] = a.split(" ");
+      const [monthB, yearB] = b.split(" ");
+
+      const monthToNumber = (month: any) =>
+        new Date(Date.parse(`${month} 1, 1970`)).getMonth();
+
+      const yearDifference = parseInt(yearA) - parseInt(yearB);
+      if (yearDifference === 0) {
+        return monthToNumber(monthB) - monthToNumber(monthA);
+      }
+      return yearDifference;
+    })
+    .reduce((acc: any, key: any) => {
+      acc[key] = groupedLists[key];
+      return acc;
+    }, {});
+
+  console.log(sortedGroupedLists);
 
   return (
     <main
@@ -19,12 +40,16 @@ function History() {
           <h1 className="text-xl font-semibold">Shopping history</h1>
 
           <section className="w-full space-y-8">
-            <div className="flex flex-col gap-y-3">
-              <h4 className="text-sm font-semibold"></h4>
-              {savedList.map((item) => {
-                return <HistoryId key={item.id} item={item} />;
-              })}
-            </div>
+            {Object.keys(sortedGroupedLists).map((monthYear: any) => {
+              return (
+                <div key={monthYear} className="flex flex-col gap-y-3">
+                  <h4 className="text-sm font-semibold">{monthYear}</h4>
+                  {sortedGroupedLists[monthYear].map((item: any) => {
+                    return <HistoryId key={item.id} item={item} />;
+                  })}
+                </div>
+              );
+            })}
           </section>
         </div>
       ) : (

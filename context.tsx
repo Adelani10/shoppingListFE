@@ -28,6 +28,7 @@ interface AppContextInterface {
   setShowCheckout: Dispatch<SetStateAction<boolean>>;
   getTopItems: () => any;
   getTopCategories: () => any;
+  groupedLists: any
 }
 
 export interface mainItemTypes {
@@ -77,6 +78,24 @@ const ProjectProvider = ({ children }: any) => {
     "Friday",
     "Saturday",
   ];
+
+  const groupedLists = savedList.reduce((acc: any, cur: saved) => {
+    const [year, month, day] = cur.localDate.split("-");
+    const dateKey = new Date(
+      parseInt(year),
+      parseInt(month) - 1
+    ).toLocaleDateString("default", {
+      month: "long",
+      year: "numeric",
+    });
+
+    if (!acc[dateKey]) {
+      acc[dateKey] = [];
+    }
+
+    acc[dateKey].push(cur);
+    return acc;
+  }, {});
 
   const getCategoriesObj = (arr: mainItemTypes[]) => {
     return arr.reduce((acc: any, cur: mainItemTypes) => {
@@ -145,6 +164,7 @@ const ProjectProvider = ({ children }: any) => {
         setShowCheckout,
         getTopItems,
         getTopCategories,
+        groupedLists
       }}
     >
       {children}
