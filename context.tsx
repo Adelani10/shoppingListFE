@@ -8,6 +8,7 @@ import {
   useState,
 } from "react";
 import data from "./data";
+import { usePathname, useRouter } from "next/navigation";
 
 interface AppContextInterface {
   darkmode: boolean;
@@ -32,6 +33,8 @@ interface AppContextInterface {
   totalsByMonth: any;
   total: (data: any) => number;
   dataForGraph: any;
+  search: (text: string) => void;
+  pathName: string;
 }
 
 export interface mainItemTypes {
@@ -81,6 +84,8 @@ const ProjectProvider = ({ children }: any) => {
     "Friday",
     "Saturday",
   ];
+  const router = useRouter();
+  const pathName = usePathname();
 
   const total = (data: any) =>
     Object.values(data).reduce((acc: number, cur: any) => acc + cur, 0);
@@ -92,7 +97,7 @@ const ProjectProvider = ({ children }: any) => {
       parseInt(month) - 1
     ).toLocaleString("default", {
       month: "short",
-      year: "numeric"
+      year: "numeric",
     });
 
     if (!acc[monthYear]) {
@@ -188,6 +193,20 @@ const ProjectProvider = ({ children }: any) => {
     })
   );
 
+  const search = (text: string) => {
+    try {
+      // if (text && !pathName.startsWith("/search")) {
+      //   router.push(`/search/${text}`);
+      // } else {
+      //   console.log("sure");
+      // }
+
+      router.push(`/search/${text}`);
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  };
+
   useEffect(() => {
     getTopItems();
     getTopCategories();
@@ -218,6 +237,8 @@ const ProjectProvider = ({ children }: any) => {
         totalsByMonth,
         total,
         dataForGraph,
+        search,
+        pathName,
       }}
     >
       {children}

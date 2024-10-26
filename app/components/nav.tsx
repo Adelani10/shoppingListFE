@@ -19,8 +19,9 @@ export default function Nav() {
     showCheckout,
     setShowCheckout,
     currentList,
+    pathName
   } = useProjectContext();
-  const pathName = usePathname();
+
 
   return (
     <div
