@@ -1,17 +1,14 @@
 "use client";
-import { mainItemTypes, useProjectContext } from "@/context";
+import { useProjectContext } from "@/context";
 import React, { useState } from "react";
 import { GoSearch } from "react-icons/go";
-import ItemCard from "./components/itemCard";
-import { useRouter } from "next/navigation";
 import { IoSendSharp } from "react-icons/io5";
+import ItemCard from "./components/itemCard";
 
 export default function Home() {
   const { darkmode, itemsArr, getCategoriesObj, search } = useProjectContext();
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
-  const router = useRouter();
-
   const categoryObj = getCategoriesObj(itemsArr);
 
   return (

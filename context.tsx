@@ -8,7 +8,8 @@ import {
   useState,
 } from "react";
 import data from "./data";
-import { usePathname, useRouter } from "next/navigation";
+import { redirect, usePathname, useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 interface AppContextInterface {
   darkmode: boolean;
@@ -35,6 +36,9 @@ interface AppContextInterface {
   dataForGraph: any;
   search: (text: string) => void;
   pathName: string;
+  router: AppRouterInstance;
+  renderAuth: boolean;
+  setRenderAuth: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface mainItemTypes {
@@ -86,6 +90,8 @@ const ProjectProvider = ({ children }: any) => {
   ];
   const router = useRouter();
   const pathName = usePathname();
+  const [renderAuth, setRenderAuth] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const total = (data: any) =>
     Object.values(data).reduce((acc: number, cur: any) => acc + cur, 0);
@@ -210,7 +216,15 @@ const ProjectProvider = ({ children }: any) => {
   useEffect(() => {
     getTopItems();
     getTopCategories();
-  }, [savedList]);
+
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      router.replace("/auth/login");
+      // redirect("/auth/login")
+    } else {
+      setIsAuthenticated(true);
+    }
+  }, [savedList, router]);
 
   return (
     <ProjectContext.Provider
@@ -239,6 +253,9 @@ const ProjectProvider = ({ children }: any) => {
         dataForGraph,
         search,
         pathName,
+        router,
+        renderAuth,
+        setRenderAuth,
       }}
     >
       {children}

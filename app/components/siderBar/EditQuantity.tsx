@@ -43,9 +43,9 @@ function EditQuantity({ items }: any) {
 
   return (
     <>
-      {items.map((item: mainItemTypes, index: number) => {
+      {items.map((item: mainItemTypes) => {
         return (
-          <div key={index} className="flex w-full items-center justify-between">
+          <div key={item.id} className="flex w-full items-center justify-between">
             <h3 className="tracking-tighter capitalize">{item.name}</h3>
 
             <div

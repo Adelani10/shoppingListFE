@@ -8,7 +8,6 @@ import React from "react";
 import { IoMoonOutline, IoMoonSharp, IoRefreshOutline } from "react-icons/io5";
 import { IoMdMenu, IoIosStats } from "react-icons/io";
 import { BsCart3 } from "react-icons/bs";
-import { usePathname } from "next/navigation";
 
 export default function Nav() {
   const {
@@ -19,14 +18,15 @@ export default function Nav() {
     showCheckout,
     setShowCheckout,
     currentList,
-    pathName
+    pathName,
   } = useProjectContext();
-
 
   return (
     <div
       className={`h-screen flex flex-col ${
         darkmode ? "bg-darkmodeSec text-white" : "bg-white text-darkmodePrimary"
+      } ${
+        pathName.startsWith("/auth") ? "hidden" : "flex"
       } justify-between fixed items-center h-screen py-4 w-16`}
     >
       <div className="flex flex-col items-center gap-y-6">
@@ -103,7 +103,7 @@ export default function Nav() {
           setAddItem(false);
           setShowCheckout(!showCheckout);
         }}
-        className="bg-orange-400 relative text-white p-3  rounded-full"
+        className="bg-orange-400 relative text-white p-3 rounded-full"
       >
         <BsCart3 />
 

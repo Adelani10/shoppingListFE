@@ -14,13 +14,16 @@ function ItemFeature() {
     setIsItemClicked,
     setCurrentList,
     setShowCheckout,
+    pathName,
   } = useProjectContext();
 
   return (
     <section
       className={`sm:w-80 fixed ${
         darkmode ? "bg-darkmodeSec text-white" : "bg-white text-darkmodePrimary"
-      } p-7 right-0 top-0 bottom-0 w-screen-minus-16 z-50 flex flex-col justify-between `}
+      } ${
+        pathName.startsWith("/auth") ? "hidden" : "flex"
+      } p-7 right-0 top-0 bottom-0 w-screen-minus-16 z-50 flex-col justify-between `}
     >
       <button
         className="text-orange-400 flex items-center gap-x-2"

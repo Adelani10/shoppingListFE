@@ -14,11 +14,12 @@ function CheckOut() {
     setCurrentList,
     getCategoriesObj,
     savedList,
-    setShowCheckout
+    setShowCheckout,
+    pathName,
   } = useProjectContext();
   const categories = getCategoriesObj(currentList);
   const month: number = Math.floor(Math.random() * 10) + 1;
-  const day: number = Math.floor(Math.random() * 31) + 1
+  const day: number = Math.floor(Math.random() * 31) + 1;
   const [saved, setSaved] = useState<saved>({
     id: nanoid(8),
     title: "",
@@ -70,7 +71,9 @@ function CheckOut() {
         darkmode
           ? "bg-darkmodeSec text-white"
           : "bg-butterColor text-darkmodePrimary"
-      } pt-8 right-0 top-0 z-50 bottom-0 w-screen-minus-16 flex flex-col justify-between `}
+      }  ${
+        pathName.startsWith("/auth") ? "hidden" : "flex"
+      } pt-8 right-0 top-0 z-50 bottom-0 w-screen-minus-16 flex-col justify-between `}
     >
       <div
         className={`px-6 flex flex-col ${
@@ -91,8 +94,8 @@ function CheckOut() {
             </h3>
             <button
               onClick={() => {
-                setAddItem(true)
-                setShowCheckout(false)
+                setAddItem(true);
+                setShowCheckout(false);
               }}
               className="text-darkmodePrimary bg-white font-semibold py-1 px-4 rounded-lg"
             >
