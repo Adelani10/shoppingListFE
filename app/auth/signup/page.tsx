@@ -67,7 +67,6 @@ const SignUp = () => {
     }
   };
 
-  console.log(credentials);
 
   return (
     <section
