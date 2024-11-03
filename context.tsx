@@ -39,6 +39,7 @@ interface AppContextInterface {
   router: AppRouterInstance;
   renderAuth: boolean;
   setRenderAuth: Dispatch<SetStateAction<boolean>>;
+  setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface mainItemTypes {
@@ -220,11 +221,10 @@ const ProjectProvider = ({ children }: any) => {
     const token = localStorage.getItem("authToken");
     if (!token) {
       router.replace("/auth/login");
-      // redirect("/auth/login")
     } else {
       setIsAuthenticated(true);
     }
-  }, [savedList, router]);
+  }, [savedList, router, isAuthenticated]);
 
   return (
     <ProjectContext.Provider
@@ -256,6 +256,7 @@ const ProjectProvider = ({ children }: any) => {
         router,
         renderAuth,
         setRenderAuth,
+        setIsAuthenticated
       }}
     >
       {children}

@@ -2,11 +2,73 @@
 import InputField from "@/app/components/auth/inputField";
 import { useProjectContext } from "@/context";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { IoMoonOutline, IoMoonSharp } from "react-icons/io5";
+import axios from "axios";
+
+export interface credType {
+  username: string;
+  password: string;
+  currentList: any[];
+  savedList: any[];
+}
 
 const SignUp = () => {
   const { darkmode, setDarkmode, router } = useProjectContext();
+  const [credentials, setCredentials] = useState<credType>({
+    username: "",
+    password: "",
+    currentList: [],
+    savedList: [],
+  });
+
+  const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
+
+  const signUp = async () => {
+    setIsAuthenticating(true);
+    try {
+      if (credentials.username && credentials.password) {
+        const result = await axios.post(
+          "https://shoppinglist-yw62.onrender.com/api/v1/user/register",
+          credentials
+        );
+        if (result.status === 200) {
+          localStorage.setItem("authToken", result.data);
+          router.replace("/");
+        }
+      } else {
+        alert("Enter username and password");
+      }
+    } catch (error: any) {
+      if (error.response) {
+        if (error.response.status === 401) {
+          alert("Authentication Failed: Invalid username or password.");
+        } else {
+          alert(
+            `"Login Error":
+              ${error.response.data || "An error occurred."}`
+          );
+        }
+      } else if (error.request) {
+        // The request was made, but no response was received
+        alert("No Response: Server did not respond. Please try again.");
+      } else {
+        // Something else happened while making the request
+        alert("Error: An unexpected error occurred.");
+      }
+    } finally {
+      setCredentials({
+        username: "",
+        password: "",
+        currentList: [],
+        savedList: [],
+      });
+      setIsAuthenticating(false);
+    }
+  };
+
+  console.log(credentials);
+
   return (
     <section
       className={`${
@@ -33,14 +95,40 @@ const SignUp = () => {
         </div>
 
         <div className="flex flex-col gap-y-4 items-center justify-center">
-          <InputField name="Email" placeholder="Enter a valid email" />
-          <InputField name="Username" placeholder="Enter a username" />
-          <InputField name="Password" placeholder="Enter a strong password" />
+          <InputField
+            name="Username"
+            placeholder="Enter a username"
+            handleChange={(e: any) => {
+              setCredentials((prev: any) => {
+                return {
+                  ...prev,
+                  username: e.target.value,
+                };
+              });
+            }}
+            value={credentials.username}
+          />
+
+          <InputField
+            name="Password"
+            placeholder="Enter a strong password"
+            password={true}
+            handleChange={(e: any) => {
+              setCredentials((prev: any) => {
+                return {
+                  ...prev,
+                  password: e.target.value,
+                };
+              });
+            }}
+            value={credentials.password}
+          />
 
           <div className="w-full md:w-80 sm:w-[70%] flex flex-col gap-y-2">
             <button
-              onClick={() => router.replace("/")}
-              className="bg-orange-400  w-full rounded-lg font-bold h-12"
+              onClick={signUp}
+              disabled={isAuthenticating}
+              className="bg-orange-400 disabled:bg-orange-600 w-full rounded-lg font-bold h-12"
             >
               SignUp
             </button>

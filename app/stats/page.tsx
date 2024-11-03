@@ -68,7 +68,7 @@ function Stats() {
             </div>
           </div>
 
-          <div className="w-full md:h-[50%] md:gap-y-8 gap-y-5 flex flex-col">
+          <div className="w-full md:h-[50%] max-h-72 md:gap-y-8 gap-y-5 flex flex-col">
             <h1 className="text-xl">Monthly Summary</h1>
             <MonthlyItemsChart data={dataForGraph} />
           </div>

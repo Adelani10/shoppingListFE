@@ -149,4 +149,49 @@ const data = [
   }
 ]
 
+const result = {
+  "data": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxhbmkiLCJpYXQiOjE3MzA2NzM3NzIsImV4cCI6MTczMDcwOTc3Mn0.oaHI3yo291SNYAKSEQryShK-cPY_UGnAisxFStH4ymg",
+  "status": 200,
+  "statusText": "",
+  "headers": {
+      "cache-control": "no-cache, no-store, max-age=0, must-revalidate",
+      "content-length": "121",
+      "content-type": "application/json",
+      "expires": "0",
+      "pragma": "no-cache"
+  },
+  "config": {
+      "transitional": {
+          "silentJSONParsing": true,
+          "forcedJSONParsing": true,
+          "clarifyTimeoutError": false
+      },
+      "adapter": [
+          "xhr",
+          "http",
+          "fetch"
+      ],
+      "transformRequest": [
+          null
+      ],
+      "transformResponse": [
+          null
+      ],
+      "timeout": 0,
+      "xsrfCookieName": "XSRF-TOKEN",
+      "xsrfHeaderName": "X-XSRF-TOKEN",
+      "maxContentLength": -1,
+      "maxBodyLength": -1,
+      "env": {},
+      "headers": {
+          "Accept": "application/json, text/plain, */*",
+          "Content-Type": "application/json"
+      },
+      "method": "post",
+      "url": "https://shoppinglist-yw62.onrender.com/api/v1/user/login",
+      "data": "{\"username\":\"delani\",\"password\":\"d@123\"}"
+  },
+  "request": {}
+}
+
 export default data

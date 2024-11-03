@@ -8,6 +8,7 @@ import React from "react";
 import { IoMoonOutline, IoMoonSharp, IoRefreshOutline } from "react-icons/io5";
 import { IoMdMenu, IoIosStats } from "react-icons/io";
 import { BsCart3 } from "react-icons/bs";
+import { HiOutlineLogout } from "react-icons/hi";
 
 export default function Nav() {
   const {
@@ -19,6 +20,7 @@ export default function Nav() {
     setShowCheckout,
     currentList,
     pathName,
+    setIsAuthenticated,
   } = useProjectContext();
 
   return (
@@ -97,22 +99,33 @@ export default function Nav() {
         </Link>
       </div>
 
-      <button
-        onClick={() => {
-          setIsItemClicked(false);
-          setAddItem(false);
-          setShowCheckout(!showCheckout);
-        }}
-        className="bg-orange-400 relative text-white p-3 rounded-full"
-      >
-        <BsCart3 />
+      <div className="flex flex-col items-center gap-y-6">
+        <button
+          onClick={() => {
+            setIsItemClicked(false);
+            setAddItem(false);
+            setShowCheckout(!showCheckout);
+          }}
+          className="bg-orange-400 relative text-white p-3 rounded-full"
+        >
+          <BsCart3 />
 
-        {currentList.length > 0 && (
-          <p className="absolute top-0 w-4 font-bold flex justify-center items-center h-4 rounded-md text-[8px] bg-red-600 right-0">
-            {currentList.length}
-          </p>
-        )}
-      </button>
+          {currentList.length > 0 && (
+            <p className="absolute top-0 w-4 font-bold flex justify-center items-center h-4 rounded-md text-[8px] bg-red-600 right-0">
+              {currentList.length}
+            </p>
+          )}
+        </button>
+
+        <button
+          onClick={() => {
+            localStorage.removeItem("authToken");
+            setIsAuthenticated(false);
+          }}
+        >
+          <HiOutlineLogout className="h-full text-red-500 w-8 mx-auto object-contain" />
+        </button>
+      </div>
     </div>
   );
 }
