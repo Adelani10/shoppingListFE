@@ -22,7 +22,8 @@ export default function Nav() {
     pathName,
     setIsAuthenticated,
     username,
-    router
+    router,
+    getCurrentUser,
   } = useProjectContext();
 
   return (
@@ -35,7 +36,9 @@ export default function Nav() {
     >
       <div className="flex flex-col items-center gap-y-6">
         <div className="h-8 w-8 rounded-full flex items-center border border-gray-400 justify-center">
-          <h1 className="font-bold capitalize text-xl">{username ? username.slice(0, 1) : "?" }</h1>
+          <h1 className="font-bold capitalize text-xl">
+            {username ? username.slice(0, 1) : "?"}
+          </h1>
         </div>
 
         <button
@@ -69,6 +72,7 @@ export default function Nav() {
 
         <Link
           onClick={() => {
+            getCurrentUser();
             setIsItemClicked(false);
             setAddItem(false);
             setShowCheckout(false);
@@ -85,6 +89,7 @@ export default function Nav() {
 
         <Link
           onClick={() => {
+            getCurrentUser()
             setIsItemClicked(false);
             setAddItem(false);
             setShowCheckout(false);
@@ -121,7 +126,7 @@ export default function Nav() {
         <button
           onClick={() => {
             localStorage.removeItem("authToken");
-            router.replace("/auth/login")
+            router.replace("/auth/login");
             setIsAuthenticated(false);
           }}
         >

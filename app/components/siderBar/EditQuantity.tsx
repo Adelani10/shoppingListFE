@@ -7,7 +7,7 @@ import axios from "axios";
 
 function EditQuantity({ items }: any) {
   const [toBeEdited, setToBeEdited] = useState<boolean>(false);
-  const { darkmode, setCurrentList } = useProjectContext();
+  const { darkmode, setCurrentList, getCurrentUser } = useProjectContext();
   const [qty, setQty] = useState<number>(1);
 
   const increaseQuantity = async (item: mainItemTypes) => {
@@ -30,6 +30,8 @@ function EditQuantity({ items }: any) {
     } catch (error) {
       alert("Error: Failed to increase");
       throw new Error("Error: Failed to increase");
+    } finally {
+      getCurrentUser();
     }
   };
 
@@ -54,6 +56,8 @@ function EditQuantity({ items }: any) {
     } catch (error) {
       alert("Error: Failed to decrease");
       throw new Error("Error: Failed to decrease");
+    } finally {
+      getCurrentUser();
     }
   };
 
@@ -78,6 +82,8 @@ function EditQuantity({ items }: any) {
     } catch (error) {
       alert("Error: Failed to remove");
       throw new Error("Error: Failed to remove");
+    } finally {
+      getCurrentUser()
     }
   };
 
@@ -123,7 +129,7 @@ function EditQuantity({ items }: any) {
                   toBeEdited ? "rounded-lg mr-2" : "rounded-xl"
                 } font-bold  `}
               >
-                {`${qty} ${qty < 2 ? "pc" : "pcs"}`}
+                {`${item.quantity} ${item.quantity < 2 ? "pc" : "pcs"}`}
               </button>
 
               {toBeEdited && (

@@ -15,6 +15,7 @@ function ItemFeature() {
     setShowCheckout,
     setCurrentList,
     pathName,
+    getCurrentUser
   } = useProjectContext();
 
   const addItemToCurrentList = async () => {
@@ -43,6 +44,7 @@ function ItemFeature() {
       setIsItemClicked(false);
       setIsAddingToList(false);
       setShowCheckout(true);
+      getCurrentUser()
     }
   };
 
@@ -52,7 +54,7 @@ function ItemFeature() {
         darkmode ? "bg-darkmodeSec text-white" : "bg-white text-darkmodePrimary"
       } ${
         pathName.startsWith("/auth") ? "hidden" : "flex"
-      } p-7 right-0 top-0 bottom-0 w-screen-minus-16 z-50 flex-col justify-between `}
+      } p-7 right-0 top-0 bottom-0 overflow-y-scroll w-screen-minus-16 z-50 flex-col justify-between `}
     >
       <button
         className="text-orange-400 flex items-center gap-x-2"
