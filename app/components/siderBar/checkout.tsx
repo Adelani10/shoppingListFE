@@ -5,64 +5,65 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import EditQuantity from "./EditQuantity";
 import { nanoid } from "nanoid";
+import axios from "axios";
 
 function CheckOut() {
   const {
     darkmode,
     setAddItem,
     currentList,
-    setCurrentList,
     getCategoriesObj,
-    savedList,
     setShowCheckout,
     pathName,
   } = useProjectContext();
   const categories = getCategoriesObj(currentList);
-  const month: number = Math.floor(Math.random() * 10) + 1;
-  const day: number = Math.floor(Math.random() * 31) + 1;
+  const date = new Date();
+  const formattedDate = `${date.getFullYear()}-${String(
+    date.getMonth() + 1
+  ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
   const [saved, setSaved] = useState<saved>({
     id: nanoid(8),
     title: "",
-    items: [],
+    items: currentList,
     completed: false,
-    localDate: `2024-${month < 10 ? "0" + month : month}-${
-      day < 10 ? "0" + day : day
-    }`,
+    localDate: formattedDate,
   });
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [failedSave, setFailedSave] = useState<boolean>(false);
 
   const handleSave = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      throw new Error("Auth token not found");
+    }
     setIsSaving(true);
-    try {
-      const updatedSaved = {
-        ...saved,
-        items: [...currentList],
-      };
 
-      if (currentList.length > 0 && updatedSaved.title) {
-        savedList.push(updatedSaved);
+    try {
+      if (saved.title && saved.items.length > 0) {
+        const res = await axios.get(
+          "https://shoppinglist-yw62.onrender.com/api/v1/user_saved_history",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       } else {
         setFailedSave(true);
-        setTimeout(() => setFailedSave(false), 4000);
-        return;
+        alert("add a title");
       }
     } catch (error: any) {
       throw new Error("error", error);
     } finally {
       setIsSaving(false);
+      setSaved({
+        id: nanoid(8),
+        title: "",
+        items: currentList,
+        completed: false,
+        localDate: formattedDate,
+      });
     }
-
-    setCurrentList([]);
-    setSaved({
-      id: nanoid(8),
-      title: "",
-      items: [],
-      completed: false,
-      localDate: `2024-${month < 10 ? "0" + month : month}-${
-        day < 10 ? "0" + day : day
-      }`,
-    });
   };
 
   return (

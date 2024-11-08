@@ -1,14 +1,58 @@
 "use client";
-import { useProjectContext } from "@/context";
-import React, { useState } from "react";
+import { mainItemTypes, useProjectContext } from "@/context";
+import React, { useEffect, useState } from "react";
 import { GoSearch } from "react-icons/go";
 import { IoSendSharp } from "react-icons/io5";
 import ItemCard from "./components/itemCard";
+import axios from "axios";
 
 export default function Home() {
-  const { darkmode, itemsArr, getCategoriesObj, search } = useProjectContext();
+  const { darkmode, getCategoriesObj, search } = useProjectContext();
+  const [itemsArr, setItemsArr] = useState<mainItemTypes[]>([]);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
+
+  const loadAvailItems = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      throw new Error("Auth token not found");
+    }
+
+    try {
+      const res = await axios.get(
+        "https://shoppinglist-yw62.onrender.com/api/v1/items",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setItemsArr(res.data);
+      console.log(res);
+    } catch (error: any) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          alert("Fetch Failed: Resource Error");
+        } else {
+          alert(
+            `Fetch Error:
+              ${error.response.data || "An error occurred."}`
+          );
+        }
+      } else if (error.request) {
+        alert("No Response: Server did not respond. Please try again.");
+      } else {
+        alert("Error: An unexpected error occurred.");
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadAvailItems()
+  }, [])
+
+  console.log(itemsArr)
+
   const categoryObj = getCategoriesObj(itemsArr);
 
   return (

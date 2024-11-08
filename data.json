@@ -1,8 +1,5 @@
-import { nanoid } from "nanoid"
-
-const data = [
+[
   {
-    "id": nanoid(6),
     "name": "lipton & lipton iced-tea",
     "image": "https://pixabay.com/get/g75fdeb690317b9035ae10f8184ee5dd7b0b6022d1ac696e73d09c20fb3c0fb311e0a7ed9f9e366441f6bda640cdff0b8352ca7e78a1a39ca60c4b4763c9780e8_640.jpg",
     "category": "beverages",
@@ -10,7 +7,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "kunu",
     "image": "https://pixabay.com/get/g80a0b5715b2048f72864196914dabae4d7052d9e225dc7b4a33f1979497048428893f03195e0d8ce72a0ffd1095820e2a2d447ac4d2e6caa6865f5ebfd398bfb_640.jpg",
     "category": "beverages",
@@ -18,7 +14,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "oranges",
     "image": "https://pixabay.com/get/gb863246952578fee84df5a8b6a607a4335b855e573e25cae360643d5614ddd8c535a80eca4f48f80e3aad54da12c558e_640.jpg",
     "category": "fruits & vegetables",
@@ -26,7 +21,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "chicken fry",
     "image": "https://pixabay.com/get/ga3a489a81d03a4e7bf2feeb1987ada0cf3e98a33e1f4f934c965441a26a0d03961160582f953080ff85a02e1405c6664_640.jpg",
     "category": "protein",
@@ -34,7 +28,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "sprite",
     "image": "https://pixabay.com/get/g62dbd1966f54efe20037bc5928ef02fb6b95f85e4da2b0ea4cbd10626b9b81315d32d9fa0455940985235a9e316093e5_640.jpg",
     "category": "beverages",
@@ -42,7 +35,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "melons",
     "image": "https://pixabay.com/get/g03d33bfcadf8a5bf88b6e83a491dbd4c8066c3e4d1c3644f0d64796f8398cfebe6710109869fb5b3afdaa9d02fe0aea6_640.jpg",
     "category": "fruits & vegetables",
@@ -50,7 +42,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "pork fillet",
     "image": "https://pixabay.com/get/g78fe401730160e6da8579245e69a3c34750294c0541bb33cd2acd8225a9447f5c50379bcb959ef4dc2bc4d46c7425acf_640.jpg",
     "category": "protein",
@@ -58,7 +49,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "fanta",
     "image": "https://pixabay.com/get/gd40c1576730ad78f96dd6dcdae30d8d7fe059d97dd7ef17b119f1f2e243609fa118a3d971f766292b5e5e49f45a25532_640.jpg",
     "category": "beverages",
@@ -67,7 +57,6 @@ const data = [
   },
 
   {
-    "id": nanoid(6),
     "name": "carrots",
     "image": "https://pixabay.com/get/ged452e9312203f19af61d78f7ab3f5e8a7b9b85316c7cf0ce9bc8629916377a14048528bfd954f56f1a5b82267906797_640.jpg",
     "category": "fruits & vegetables",
@@ -75,7 +64,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "lamb",
     "image": "https://pixabay.com/get/g2845216432ac11eeb491d2dab97010a05f9da8b786b68af4a341a18b78aaaf0a76beaf9e6f2353fb156db09dcc46a85f_640.jpg",
     "category": "protein",
@@ -83,7 +71,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "durian",
     "image": "https://pixabay.com/get/gc7535d54a03dd260fe2011d0c24caa5b38bb3ec10d6407693d1bfcf91b66e960beb06c9339e68d1ad1183783a429f173_640.jpg",
     "category": "fruits & vegetables",
@@ -91,7 +78,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "salmon",
     "image": "https://pixabay.com/get/g512ae61bb5792cab97bfaa5b30c70d97fdcc67dc915a2716661a41e84575e1d4e74f55b93a61cbf21ad23d91df13d044_640.png",
     "category": "protein",
@@ -99,7 +85,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "zobo",
     "image": "https://pixabay.com/get/gb8edfee3d4c8db9f269495847e757a5c180ab08ce51a6b34eefc5a5909946b922526417fc5a8515f03b9ca5d5c20e82d_640.jpg",
     "category": "beverages",
@@ -107,7 +92,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "rhino's horn",
     "image": "https://pixabay.com/get/g4202cb863827d97deef4f07bfc623eeb63137a21e0d4bdb429b5f89839629c0d0e89a7d622b43b1523902669d6dc7f2f_640.jpg",
     "category": "protein",
@@ -116,7 +100,6 @@ const data = [
   },
 
   {
-    "id": nanoid(6),
     "name": "snails",
     "image": "https://pixabay.com/get/g1843f48724450e52c5197ba5541712b3d6dd3fecb9cd5beda66f7f22cde6c1867d745d24d7507ed32843fb766c65089d_640.png",
     "category": "protein",
@@ -124,7 +107,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "pre-cooked corn",
     "image": "https://pixabay.com/get/ge4cb25e01b0bd0f24b9a65516ee6a52ecf5f410dbccea2460929ecb07891664ccc54e7b1e7cf0d9814423f7adfee2579_640.jpg",
     "category": "fruits & vegetables",
@@ -132,7 +114,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "diet coke",
     "image": "https://pixabay.com/get/ged7d894b4a2d1dee5d9db649939f6abf4f9f4c5f70692d763ce7db7e43f5f631945eb5a5a766aff465f06314f8606f47_640.jpg",
     "category": "beverages",
@@ -140,7 +121,6 @@ const data = [
     "quantity": 1
   },
   {
-    "id": nanoid(6),
     "name": "gatorade",
     "image": "https://pixabay.com/get/g6e46aed14a9e5e3f367fb0d9bc9768c51b77479ed8d450d8124d28346f4890f16249f59203fd207eba6cd2a9fecb5eec_640.jpg",
     "category": "beverages",
@@ -149,49 +129,3 @@ const data = [
   }
 ]
 
-const result = {
-  "data": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkZWxhbmkiLCJpYXQiOjE3MzA2NzM3NzIsImV4cCI6MTczMDcwOTc3Mn0.oaHI3yo291SNYAKSEQryShK-cPY_UGnAisxFStH4ymg",
-  "status": 200,
-  "statusText": "",
-  "headers": {
-      "cache-control": "no-cache, no-store, max-age=0, must-revalidate",
-      "content-length": "121",
-      "content-type": "application/json",
-      "expires": "0",
-      "pragma": "no-cache"
-  },
-  "config": {
-      "transitional": {
-          "silentJSONParsing": true,
-          "forcedJSONParsing": true,
-          "clarifyTimeoutError": false
-      },
-      "adapter": [
-          "xhr",
-          "http",
-          "fetch"
-      ],
-      "transformRequest": [
-          null
-      ],
-      "transformResponse": [
-          null
-      ],
-      "timeout": 0,
-      "xsrfCookieName": "XSRF-TOKEN",
-      "xsrfHeaderName": "X-XSRF-TOKEN",
-      "maxContentLength": -1,
-      "maxBodyLength": -1,
-      "env": {},
-      "headers": {
-          "Accept": "application/json, text/plain, */*",
-          "Content-Type": "application/json"
-      },
-      "method": "post",
-      "url": "https://shoppinglist-yw62.onrender.com/api/v1/user/login",
-      "data": "{\"username\":\"delani\",\"password\":\"d@123\"}"
-  },
-  "request": {}
-}
-
-export default data

@@ -7,14 +7,14 @@ import { GoSearch } from "react-icons/go";
 import { IoSendSharp } from "react-icons/io5";
 
 const Query = () => {
-  const { darkmode, getCategoriesObj, itemsArr, search } = useProjectContext();
+  const { darkmode, getCategoriesObj, search, searchData } = useProjectContext();
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
 
   const params = useParams();
   const { query } = params;
 
-  const categoryObj = getCategoriesObj(itemsArr);
+  const categoryObj = getCategoriesObj(searchData);
 
   return (
     <main

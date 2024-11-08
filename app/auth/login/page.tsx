@@ -19,11 +19,6 @@ const LogIn = () => {
   });
   const [isAuthenticating, setIsAuthenticating] = useState<boolean>(false);
 
-  // const token = localStorage.getItem("authToken");
-  // if (!token) {
-  //   throw new Error("Auth token not found");
-  // }
-
   const logIn = async () => {
     setIsAuthenticating(true);
     try {
@@ -32,7 +27,6 @@ const LogIn = () => {
           "https://shoppinglist-yw62.onrender.com/api/v1/user/login",
           credentials
         );
-        console.log(result);
         if (result.status === 200) {
           localStorage.setItem("authToken", result.data);
           router.replace("/");

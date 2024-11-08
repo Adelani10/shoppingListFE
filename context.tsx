@@ -7,14 +7,14 @@ import {
   useEffect,
   useState,
 } from "react";
-import data from "./data";
+// import data from "./data";
 import { redirect, usePathname, useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import axios from "axios";
 
 interface AppContextInterface {
   darkmode: boolean;
   setDarkmode: Dispatch<SetStateAction<boolean>>;
-  itemsArr: mainItemTypes[];
   itemClickedOn: mainItemTypes | null;
   setItemClickedOn: Dispatch<SetStateAction<mainItemTypes | null>>;
   isItemClicked: boolean;
@@ -40,6 +40,8 @@ interface AppContextInterface {
   renderAuth: boolean;
   setRenderAuth: Dispatch<SetStateAction<boolean>>;
   setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
+  getCurrentUser: () => Promise<void>;
+  searchData: mainItemTypes[];
 }
 
 export interface mainItemTypes {
@@ -49,6 +51,7 @@ export interface mainItemTypes {
   category: string;
   note: string;
   quantity: number;
+  creatorId: any;
 }
 
 export interface saved {
@@ -70,7 +73,6 @@ export const useProjectContext = () => {
 };
 
 const ProjectProvider = ({ children }: any) => {
-  const [itemsArr, setItemsArr] = useState<mainItemTypes[]>(data);
   const [darkmode, setDarkmode] = useState<boolean>(false);
   const [itemClickedOn, setItemClickedOn] = useState<mainItemTypes | null>(
     null
@@ -93,6 +95,7 @@ const ProjectProvider = ({ children }: any) => {
   const pathName = usePathname();
   const [renderAuth, setRenderAuth] = useState<boolean>(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [searchData, setSearchData] = useState<mainItemTypes[]>([])
 
   const total = (data: any) =>
     Object.values(data).reduce((acc: number, cur: any) => acc + cur, 0);
@@ -200,38 +203,68 @@ const ProjectProvider = ({ children }: any) => {
     })
   );
 
-  const search = (text: string) => {
+  const search = async (text: string) => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      throw new Error("Auth token not found");
+    }
     try {
-      // if (text && !pathName.startsWith("/search")) {
-      //   router.push(`/search/${text}`);
-      // } else {
-      //   console.log("sure");
-      // }
-
+      const res = await axios.get(
+        `https://shoppinglist-yw62.onrender.com/api/v1/items/${text}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSearchData(res.data)
       router.push(`/search/${text}`);
     } catch (error: any) {
+      alert("An error occurred")
       throw new Error(error);
+
+    }
+  };
+
+  const getCurrentUser = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      throw new Error("Auth token not found");
+    }
+
+    try {
+      const res = await axios.get(
+        "https://shoppinglist-yw62.onrender.com/api/v1/user/current_user",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setCurrentList(res.data.currentList);
+      setSavedList(res.data.savedList);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    getTopItems();
-    getTopCategories();
-
     const token = localStorage.getItem("authToken");
     if (!token) {
       router.replace("/auth/login");
     } else {
       setIsAuthenticated(true);
     }
-  }, [savedList, router, isAuthenticated]);
+    getCurrentUser();
+  }, [isAuthenticated]);
+
+  console.log(currentList)
 
   return (
     <ProjectContext.Provider
       value={{
         darkmode,
         setDarkmode,
-        itemsArr,
         itemClickedOn,
         setItemClickedOn,
         isItemClicked,
@@ -256,7 +289,9 @@ const ProjectProvider = ({ children }: any) => {
         router,
         renderAuth,
         setRenderAuth,
-        setIsAuthenticated
+        setIsAuthenticated,
+        getCurrentUser,
+        searchData,
       }}
     >
       {children}

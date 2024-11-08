@@ -1,6 +1,7 @@
 "use client";
 
 import { useProjectContext } from "@/context";
+import axios from "axios";
 import Image from "next/image";
 import React, { useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
@@ -10,12 +11,39 @@ function ItemFeature() {
   const {
     darkmode,
     itemClickedOn,
-    currentList,
     setIsItemClicked,
-    setCurrentList,
     setShowCheckout,
+    setCurrentList,
     pathName,
   } = useProjectContext();
+
+  const addItemToCurrentList = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      throw new Error("Auth token not found");
+    }
+
+    setIsAddingToList(true);
+
+    try {
+      const res = await axios.put(
+        "https://shoppinglist-yw62.onrender.com/api/v1/user/add_to_current_list",
+        itemClickedOn,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setCurrentList(res.data);
+    } catch (error) {
+      alert("Error: Couldn't add Item");
+    } finally {
+      setIsItemClicked(false);
+      setIsAddingToList(false);
+      setShowCheckout(true);
+    }
+  };
 
   return (
     <section
@@ -68,29 +96,7 @@ function ItemFeature() {
 
         <button
           disabled={isAddingToList === true}
-          onClick={async () => {
-            try {
-              const containsItemAlready = currentList.some((item) => {
-                return item.id === itemClickedOn?.id;
-              });
-
-              if (!containsItemAlready) {
-                setCurrentList((prev: any) => {
-                  return [...prev, itemClickedOn];
-                });
-              } else {
-                console.log("something went wrong");
-              }
-              setIsAddingToList(true);
-              setTimeout(() => {
-                setIsItemClicked(false);
-                setIsAddingToList(false);
-                setShowCheckout(true);
-              }, 1000);
-            } catch (error) {
-              console.log(error);
-            }
-          }}
+          onClick={addItemToCurrentList}
           className={`text-white rounded-xl disabled:bg-orange-200 disabled:text-gray-300 bg-orange-400 font-semibold p-3 text-sm tracking-wider`}
         >
           Add to list
