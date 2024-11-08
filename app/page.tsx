@@ -7,51 +7,16 @@ import ItemCard from "./components/itemCard";
 import axios from "axios";
 
 export default function Home() {
-  const { darkmode, getCategoriesObj, search } = useProjectContext();
-  const [itemsArr, setItemsArr] = useState<mainItemTypes[]>([]);
+  const { darkmode, getCategoriesObj, search, loadAvailItems, itemsArr } = useProjectContext();
+  
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
 
-  const loadAvailItems = async () => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      throw new Error("Auth token not found");
-    }
-
-    try {
-      const res = await axios.get(
-        "https://shoppinglist-yw62.onrender.com/api/v1/items",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setItemsArr(res.data);
-      console.log(res);
-    } catch (error: any) {
-      if (error.response) {
-        if (error.response.status === 404) {
-          alert("Fetch Failed: Resource Error");
-        } else {
-          alert(
-            `Fetch Error:
-              ${error.response.data || "An error occurred."}`
-          );
-        }
-      } else if (error.request) {
-        alert("No Response: Server did not respond. Please try again.");
-      } else {
-        alert("Error: An unexpected error occurred.");
-      }
-    }
-  };
+  
 
   useEffect(() => {
-    loadAvailItems()
-  }, [])
-
-  console.log(itemsArr)
+    loadAvailItems();
+  }, []);
 
   const categoryObj = getCategoriesObj(itemsArr);
 
@@ -69,7 +34,10 @@ export default function Home() {
           take your shopping list wherever you go.
         </h1>
 
-        <div className="relative md:w-[50%] w-full h-12">
+        <form
+          onSubmit={(e) => search(e, text)}
+          className="relative md:w-[50%] w-full h-12"
+        >
           <input
             type="text"
             onFocus={() => setIsFocused(true)}
@@ -92,12 +60,12 @@ export default function Home() {
 
           <button
             disabled={!text}
-            onClick={() => search(text)}
+            type="submit"
             className={`absolute right-4 h-1/2 w-7 translate-y-[-50%] top-1/2`}
           >
             <IoSendSharp className="h-full w-full" />
           </button>
-        </div>
+        </form>
       </div>
 
       <div className="flex flex-col w-full gap-y-12 pr-4 md:pr-8">
@@ -108,7 +76,7 @@ export default function Home() {
               className="flex flex-col w-full items-start gap-y-3"
             >
               <h3 className="text-xl capitalize">{category}</h3>
-              <div className="flex flex-wrap md:gap-5 gap-3">
+              <div className="flex flex-wrap w-full md:gap-5 gap-3">
                 <ItemCard key={category} items={items} />
               </div>
             </div>

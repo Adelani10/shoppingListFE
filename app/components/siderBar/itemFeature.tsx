@@ -20,6 +20,7 @@ function ItemFeature() {
   const addItemToCurrentList = async () => {
     const token = localStorage.getItem("authToken");
     if (!token) {
+      alert("Not signed in or Token expired, Sign in again");
       throw new Error("Auth token not found");
     }
 

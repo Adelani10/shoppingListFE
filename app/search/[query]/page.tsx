@@ -7,7 +7,8 @@ import { GoSearch } from "react-icons/go";
 import { IoSendSharp } from "react-icons/io5";
 
 const Query = () => {
-  const { darkmode, getCategoriesObj, search, searchData } = useProjectContext();
+  const { darkmode, getCategoriesObj, search, searchData } =
+    useProjectContext();
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [text, setText] = useState<string>("");
 
@@ -25,7 +26,10 @@ const Query = () => {
       } py-8 md:pl-24 pl-20 space-y-8 h-screen overflow-y-scroll sm:pr-80 font-[family-name:var(--font-geist-sans)]`}
     >
       <div className="md:pr-8 pr-4 gap-y-5 w-full  flex flex-col">
-        <div className="relative w-full h-12">
+        <form
+          onSubmit={(e) => search(e, text)}
+          className="relative w-full h-12"
+        >
           <input
             type="text"
             onFocus={() => setIsFocused(true)}
@@ -48,12 +52,12 @@ const Query = () => {
 
           <button
             disabled={!text}
-            onClick={() => search(text)}
+            type="submit"
             className={`absolute right-4 h-1/2 w-7 translate-y-[-50%] top-1/2`}
           >
             <IoSendSharp className="h-full w-full" />
           </button>
-        </div>
+        </form>
 
         <h2 className="text-xl font-bold capitalize">{query}</h2>
 

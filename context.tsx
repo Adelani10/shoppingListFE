@@ -1,6 +1,7 @@
 "use client";
 import {
   Dispatch,
+  FormEvent,
   SetStateAction,
   createContext,
   useContext,
@@ -34,7 +35,7 @@ interface AppContextInterface {
   totalsByMonth: any;
   total: (data: any) => number;
   dataForGraph: any;
-  search: (text: string) => void;
+  search: (event: FormEvent, text: string) => Promise<void>;
   pathName: string;
   router: AppRouterInstance;
   renderAuth: boolean;
@@ -42,6 +43,9 @@ interface AppContextInterface {
   setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
   getCurrentUser: () => Promise<void>;
   searchData: mainItemTypes[];
+  username: string;
+  loadAvailItems: () => Promise<void>;
+  itemsArr: mainItemTypes[];
 }
 
 export interface mainItemTypes {
@@ -95,7 +99,68 @@ const ProjectProvider = ({ children }: any) => {
   const pathName = usePathname();
   const [renderAuth, setRenderAuth] = useState<boolean>(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [searchData, setSearchData] = useState<mainItemTypes[]>([])
+  const [searchData, setSearchData] = useState<mainItemTypes[]>([]);
+  const [username, setUsername] = useState<string>("");
+  const [itemsArr, setItemsArr] = useState<mainItemTypes[]>([]);
+
+  const getCurrentUser = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("Not signed in or Token expired, Sign in again");
+      throw new Error("Auth token not found");
+    }
+
+    try {
+      const res = await axios.get(
+        "https://shoppinglist-yw62.onrender.com/api/v1/user/current_user",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setCurrentList(res.data.currentList);
+      setSavedList(res.data.savedList);
+      setUsername(res.data.username);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const loadAvailItems = async () => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      alert("Not signed in or Token expired, Sign in again");
+      throw new Error("Auth token not found");
+    }
+
+    try {
+      const res = await axios.get(
+        "https://shoppinglist-yw62.onrender.com/api/v1/items",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setItemsArr(res.data);
+    } catch (error: any) {
+      if (error.response) {
+        if (error.response.status === 404) {
+          alert("Fetch Failed: Resource Error");
+        } else {
+          alert(
+            `Fetch Error:
+              ${error.response.data || "An error occurred."}`
+          );
+        }
+      } else if (error.request) {
+        alert("No Response: Server did not respond. Please try again.");
+      } else {
+        alert("Error: An unexpected error occurred.");
+      }
+    }
+  };
 
   const total = (data: any) =>
     Object.values(data).reduce((acc: number, cur: any) => acc + cur, 0);
@@ -203,7 +268,8 @@ const ProjectProvider = ({ children }: any) => {
     })
   );
 
-  const search = async (text: string) => {
+  const search = async (event: FormEvent, text: string) => {
+    event.preventDefault();
     const token = localStorage.getItem("authToken");
     if (!token) {
       throw new Error("Auth token not found");
@@ -217,48 +283,19 @@ const ProjectProvider = ({ children }: any) => {
           },
         }
       );
-      setSearchData(res.data)
+      setSearchData(res.data);
       router.push(`/search/${text}`);
     } catch (error: any) {
-      alert("An error occurred")
+      alert("An error occurred");
       throw new Error(error);
-
-    }
-  };
-
-  const getCurrentUser = async () => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      throw new Error("Auth token not found");
-    }
-
-    try {
-      const res = await axios.get(
-        "https://shoppinglist-yw62.onrender.com/api/v1/user/current_user",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setCurrentList(res.data.currentList);
-      setSavedList(res.data.savedList);
-    } catch (error) {
-      console.log(error);
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      router.replace("/auth/login");
-    } else {
-      setIsAuthenticated(true);
+    if (pathName === "/") {
+      getCurrentUser();
     }
-    getCurrentUser();
-  }, [isAuthenticated]);
-
-  console.log(currentList)
+  }, [pathName]);
 
   return (
     <ProjectContext.Provider
@@ -292,6 +329,9 @@ const ProjectProvider = ({ children }: any) => {
         setIsAuthenticated,
         getCurrentUser,
         searchData,
+        username,
+        loadAvailItems,
+        itemsArr
       }}
     >
       {children}

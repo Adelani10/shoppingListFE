@@ -11,7 +11,7 @@ import { MdCalendarMonth } from "react-icons/md";
 function HistoryDetails() {
   const { darkmode, savedList, getCategoriesObj, weekdays } =
     useProjectContext();
-  const [historyItem, setHistoryItem] = useState<saved>({
+  const [historyItem, setHistoryItem] = useState<saved | null>({
     id: nanoid(8),
     title: "",
     items: [],
@@ -20,6 +20,7 @@ function HistoryDetails() {
   });
   const params = useParams();
   const { id } = params;
+
   useEffect(() => {
     const obj = savedList.find((item) => item.id === id);
     setHistoryItem(obj!);

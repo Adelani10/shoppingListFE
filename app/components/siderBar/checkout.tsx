@@ -2,7 +2,7 @@
 import { images } from "@/constants";
 import { mainItemTypes, saved, useProjectContext } from "@/context";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import EditQuantity from "./EditQuantity";
 import { nanoid } from "nanoid";
 import axios from "axios";
@@ -15,6 +15,7 @@ function CheckOut() {
     getCategoriesObj,
     setShowCheckout,
     pathName,
+    getCurrentUser,
   } = useProjectContext();
   const categories = getCategoriesObj(currentList);
   const date = new Date();
@@ -31,23 +32,29 @@ function CheckOut() {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [failedSave, setFailedSave] = useState<boolean>(false);
 
-  const handleSave = async () => {
+  const handleSave = async (e: FormEvent) => {
+    e.preventDefault();
     const token = localStorage.getItem("authToken");
     if (!token) {
+      alert("Not signed in or Token expired, Sign in again");
       throw new Error("Auth token not found");
     }
     setIsSaving(true);
 
     try {
       if (saved.title && saved.items.length > 0) {
-        const res = await axios.get(
+        const res = await axios.post(
           "https://shoppinglist-yw62.onrender.com/api/v1/user_saved_history",
+          saved,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
+        res.status === 200
+          ? alert("List successfully saved!")
+          : alert("Something went wrong, try again");
       } else {
         setFailedSave(true);
         alert("add a title");
@@ -63,6 +70,7 @@ function CheckOut() {
         completed: false,
         localDate: formattedDate,
       });
+      getCurrentUser();
     }
   };
 
@@ -170,7 +178,10 @@ function CheckOut() {
             darkmode ? "bg-darkmodeTertiary" : "bg-white"
           } `}
         >
-          <div className="flex items-center h-full w-full">
+          <form
+            onSubmit={(e) => handleSave(e)}
+            className="flex items-center h-full w-full"
+          >
             <input
               type="text"
               placeholder="Enter a name"
@@ -190,12 +201,12 @@ function CheckOut() {
             />
             <button
               disabled={isSaving === true || currentList.length < 1}
-              onClick={() => handleSave()}
+              type="submit"
               className="h-full bg-orange-400 -ml-2 text-white font-bold w-[30%] rounded-xl disabled:bg-gray-400"
             >
               Save
             </button>
-          </div>
+          </form>
           {failedSave && (
             <p className="text-[10px] text-center text-red-500">
               Please provide a name or populate your current list

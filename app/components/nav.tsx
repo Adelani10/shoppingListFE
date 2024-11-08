@@ -21,6 +21,8 @@ export default function Nav() {
     currentList,
     pathName,
     setIsAuthenticated,
+    username,
+    router
   } = useProjectContext();
 
   return (
@@ -32,11 +34,10 @@ export default function Nav() {
       } justify-between fixed items-center h-screen py-4 w-16`}
     >
       <div className="flex flex-col items-center gap-y-6">
-        <Image
-          src={images.avatar}
-          alt="avatar"
-          className="h-8 w-8 object-contain"
-        />
+        <div className="h-8 w-8 rounded-full flex items-center border border-gray-400 justify-center">
+          <h1 className="font-bold capitalize text-xl">{username ? username.slice(0, 1) : "?" }</h1>
+        </div>
+
         <button
           onClick={() => setDarkmode(!darkmode)}
           className={`${darkmode ? "text-white" : "text-black"} h-6 w-6 `}
@@ -120,6 +121,7 @@ export default function Nav() {
         <button
           onClick={() => {
             localStorage.removeItem("authToken");
+            router.replace("/auth/login")
             setIsAuthenticated(false);
           }}
         >

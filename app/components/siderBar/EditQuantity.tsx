@@ -8,11 +8,12 @@ import axios from "axios";
 function EditQuantity({ items }: any) {
   const [toBeEdited, setToBeEdited] = useState<boolean>(false);
   const { darkmode, setCurrentList } = useProjectContext();
-  const [qty, setQty] = useState<number>(1)
+  const [qty, setQty] = useState<number>(1);
 
   const increaseQuantity = async (item: mainItemTypes) => {
     const token = localStorage.getItem("authToken");
     if (!token) {
+      alert("Not signed in or Token expired, Sign in again");
       throw new Error("Auth token not found");
     }
     try {
@@ -35,6 +36,7 @@ function EditQuantity({ items }: any) {
   const decreaseQuantity = async (item: mainItemTypes) => {
     const token = localStorage.getItem("authToken");
     if (!token) {
+      alert("Not signed in or Token expired, Sign in again");
       throw new Error("Auth token not found");
     }
 
@@ -58,6 +60,7 @@ function EditQuantity({ items }: any) {
   const deleteItemFromList = async (item: mainItemTypes) => {
     const token = localStorage.getItem("authToken");
     if (!token) {
+      alert("Not signed in or Token expired, Sign in again");
       throw new Error("Auth token not found");
     }
 
@@ -71,7 +74,7 @@ function EditQuantity({ items }: any) {
           },
         }
       );
-      setCurrentList(res.data)
+      setCurrentList(res.data);
     } catch (error) {
       alert("Error: Failed to remove");
       throw new Error("Error: Failed to remove");
