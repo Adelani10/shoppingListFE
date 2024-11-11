@@ -35,20 +35,16 @@ const LogIn = () => {
         alert("Enter username and password");
       }
     } catch (error: any) {
+      console.error("Error details:", error); // Log the complete error
       if (error.response) {
         if (error.response.status === 401) {
           alert("Authentication Failed: Invalid username or password.");
         } else {
-          alert(
-            `"Login Error":
-              ${error.response.data || "An error occurred."}`
-          );
+          alert(`Login Error: ${error.response.data || "An error occurred."}`);
         }
       } else if (error.request) {
-        // The request was made, but no response was received
         alert("No Response: Server did not respond. Please try again.");
       } else {
-        // Something else happened while making the request
         alert("Error: An unexpected error occurred.");
       }
     } finally {
