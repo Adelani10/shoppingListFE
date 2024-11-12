@@ -29,7 +29,7 @@ const LogIn = () => {
         );
         if (result.status === 200) {
           localStorage.setItem("authToken", result.data);
-          router.replace("/");
+          router.push("/");
         }
       } else {
         alert("Enter username and password");

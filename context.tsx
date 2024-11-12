@@ -331,7 +331,7 @@ const ProjectProvider = ({ children }: any) => {
         searchData,
         username,
         loadAvailItems,
-        itemsArr
+        itemsArr,
       }}
     >
       {children}
