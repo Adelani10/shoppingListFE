@@ -12,7 +12,7 @@ export interface credType {
 }
 
 const LogIn = () => {
-  const { darkmode, setDarkmode, router } = useProjectContext();
+  const { darkmode, setDarkmode, router, getCurrentUser } = useProjectContext();
   const [credentials, setCredentials] = useState<credType>({
     username: "",
     password: "",
@@ -53,6 +53,7 @@ const LogIn = () => {
         password: "",
       });
       setIsAuthenticating(false);
+      getCurrentUser()
     }
   };
 

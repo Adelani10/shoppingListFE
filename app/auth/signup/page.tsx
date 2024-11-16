@@ -14,7 +14,7 @@ export interface credType {
 }
 
 const SignUp = () => {
-  const { darkmode, setDarkmode, router } = useProjectContext();
+  const { darkmode, setDarkmode, router, getCurrentUser } = useProjectContext();
   const [credentials, setCredentials] = useState<credType>({
     username: "",
     password: "",
@@ -64,6 +64,7 @@ const SignUp = () => {
         savedList: [],
       });
       setIsAuthenticating(false);
+      getCurrentUser()
     }
   };
 

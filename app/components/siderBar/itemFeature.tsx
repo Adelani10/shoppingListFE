@@ -2,6 +2,7 @@
 
 import { useProjectContext } from "@/context";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import React, { useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
@@ -15,19 +16,44 @@ function ItemFeature() {
     setShowCheckout,
     setCurrentList,
     pathName,
-    getCurrentUser
+    router,
+    getCurrentUser,
   } = useProjectContext();
 
-  const addItemToCurrentList = async () => {
+  const checkTokenValidity = async () => {
     const token = localStorage.getItem("authToken");
-    if (!token) {
-      alert("Not signed in or Token expired, Sign in again");
-      throw new Error("Auth token not found");
+
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+
+      if (decodedToken.exp < currentTime) {
+        localStorage.removeItem("authToken");
+        router.push("/auth/login");
+      }
+
+      try {
+        await axios.get(
+          "https://shoppinglist-yw62.onrender.com/api/v1/items",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+      } catch (error) {
+        localStorage.removeItem("authToken");
+        router.push("/auth/login");
+      }
+    } else {
+      router.push("/auth/login");
     }
+    return;
+  };
 
+  const addItemToCurrentList = async () => {
     setIsAddingToList(true);
-
+    const token = localStorage.getItem("authToken");
     try {
+      checkTokenValidity();
       const res = await axios.put(
         "https://shoppinglist-yw62.onrender.com/api/v1/user/add_to_current_list",
         itemClickedOn,
@@ -44,7 +70,6 @@ function ItemFeature() {
       setIsItemClicked(false);
       setIsAddingToList(false);
       setShowCheckout(true);
-      getCurrentUser()
     }
   };
 
@@ -100,9 +125,9 @@ function ItemFeature() {
         <button
           disabled={isAddingToList === true}
           onClick={addItemToCurrentList}
-          className={`text-white rounded-xl disabled:bg-orange-200 disabled:text-gray-300 bg-orange-400 font-semibold p-3 text-sm tracking-wider`}
+          className={`text-white rounded-xl disabled:bg-orange-700 disabled:text-gray-300 bg-orange-400 font-semibold p-3 text-sm tracking-wider`}
         >
-          Add to list
+          {isAddingToList ? "Adding..." : "Add to List"}
         </button>
       </div>
     </section>

@@ -12,6 +12,7 @@ import {
 import { redirect, usePathname, useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import axios from "axios";
+import * as jwtDecode from "jwt-decode";
 
 interface AppContextInterface {
   darkmode: boolean;
@@ -128,20 +129,9 @@ const ProjectProvider = ({ children }: any) => {
   };
 
   const loadAvailItems = async () => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      alert("Not signed in or Token expired, Sign in again");
-      throw new Error("Auth token not found");
-    }
-
     try {
       const res = await axios.get(
-        "https://shoppinglist-yw62.onrender.com/api/v1/items",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        "https://shoppinglist-yw62.onrender.com/api/v1/items"
       );
       setItemsArr(res.data);
     } catch (error: any) {
@@ -270,18 +260,10 @@ const ProjectProvider = ({ children }: any) => {
 
   const search = async (event: FormEvent, text: string) => {
     event.preventDefault();
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      throw new Error("Auth token not found");
-    }
+
     try {
       const res = await axios.get(
-        `https://shoppinglist-yw62.onrender.com/api/v1/items/${text}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `https://shoppinglist-yw62.onrender.com/api/v1/items/${text}`
       );
       setSearchData(res.data);
       router.push(`/search/${text}`);
@@ -291,9 +273,28 @@ const ProjectProvider = ({ children }: any) => {
     }
   };
 
+const checkTokenValidity = () => {
+  const router = useRouter();
+  const token = localStorage.getItem("authToken");
+
+  if (token) {
+    const decodedToken: any = jwtDecode.jwtDecode(token);
+    const currentTime = Date.now() / 1000; 
+
+    if (decodedToken.exp < currentTime) {
+      localStorage.removeItem("authToken"); 
+      router.push("/signup");
+    }
+  } else {
+    router.push("/signup");
+  }
+};
+
+
+
   useEffect(() => {
     if (pathName === "/") {
-      getCurrentUser();
+      loadAvailItems();
     }
   }, [pathName]);
 
