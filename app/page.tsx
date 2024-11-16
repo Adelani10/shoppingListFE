@@ -64,7 +64,7 @@ export default function Home() {
             </form>
           </div>
 
-          <div className="flex flex-col w-full gap-y-12 pr-4 md:pr-8">
+          <div className="flex flex-col w-full gap-y-12  md:pr-8">
             {Object.entries(categoryObj).map(([category, items]): any => {
               return (
                 <div

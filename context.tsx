@@ -273,29 +273,8 @@ const ProjectProvider = ({ children }: any) => {
     }
   };
 
-const checkTokenValidity = () => {
-  const router = useRouter();
-  const token = localStorage.getItem("authToken");
-
-  if (token) {
-    const decodedToken: any = jwtDecode.jwtDecode(token);
-    const currentTime = Date.now() / 1000; 
-
-    if (decodedToken.exp < currentTime) {
-      localStorage.removeItem("authToken"); 
-      router.push("/signup");
-    }
-  } else {
-    router.push("/signup");
-  }
-};
-
-
-
   useEffect(() => {
-    if (pathName === "/") {
-      loadAvailItems();
-    }
+    loadAvailItems();
   }, [pathName]);
 
   return (
