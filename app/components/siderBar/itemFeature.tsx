@@ -17,7 +17,6 @@ function ItemFeature() {
     setCurrentList,
     pathName,
     router,
-    getCurrentUser,
   } = useProjectContext();
 
   const checkTokenValidity = async () => {
@@ -34,7 +33,7 @@ function ItemFeature() {
 
       try {
         await axios.get(
-          "https://shoppinglist-yw62.onrender.com/api/v1/items",
+          "https://shoppinglist-yw62.onrender.com/api/v1/user/current_user",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
