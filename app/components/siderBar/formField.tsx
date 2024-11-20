@@ -18,7 +18,7 @@ function FormField({
 }: formFieldTypes) {
   const { darkmode } = useProjectContext();
   return (
-    <section className="flex flex-col md:gap-y-3 gap-y-1 items-start">
+    <section className="flex flex-col md:gap-y-2 gap-y-1 items-start">
       <h5 className="text-xs ">{name}</h5>
       {name === "Note (Optional)" ? (
         <textarea

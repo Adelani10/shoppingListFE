@@ -78,7 +78,7 @@ function Form() {
     >
       
 
-      <div className="w-full flex flex-col md:gap-y-8 gap-y-5">
+      <div className="w-full flex flex-col  gap-y-5">
         <h1 className="font-semibold mb-3">Add a new Item</h1>
         <FormField
           name="Name"
