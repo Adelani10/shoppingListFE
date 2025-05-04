@@ -6,6 +6,7 @@ import React, { FormEvent, useEffect, useState } from "react";
 import EditQuantity from "./EditQuantity";
 import { nanoid } from "nanoid";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function CheckOut() {
   const {
@@ -36,7 +37,7 @@ function CheckOut() {
     e.preventDefault();
     const token = localStorage.getItem("authToken");
     if (!token) {
-      alert("Not signed in or Token expired, Sign in again");
+      toast.error("Not signed in or Token expired, Sign in again");
       throw new Error("Auth token not found");
     }
     setIsSaving(true);
@@ -53,11 +54,11 @@ function CheckOut() {
           }
         );
         res.status === 200
-          ? alert("List successfully saved!")
-          : alert("Something went wrong, try again");
+          ? toast.success("List successfully saved!")
+          : toast.error("Something went wrong, try again");
       } else {
         setFailedSave(true);
-        alert("add a title");
+        toast.error("add a title");
       }
     } catch (error: any) {
       throw new Error("error", error);
@@ -137,7 +138,9 @@ function CheckOut() {
                         : "text-sm gap-y-2"
                     } w-full `}
                   >
-                    <EditQuantity key={category} items={items} />
+                    {(items as mainItemTypes[]).map((item: mainItemTypes) => {
+                      return <EditQuantity key={category} item={item} />;
+                    })}
                   </div>
                 </div>
               );

@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { IoMoonOutline, IoMoonSharp } from "react-icons/io5";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export interface credType {
   username: string;
@@ -34,40 +35,40 @@ const SignUp = () => {
         );
         if (result.status === 200) {
           localStorage.setItem("authToken", result.data);
+          toast.success("Signed up & Logged in successfully");
           router.replace("/");
+          setCredentials({
+            username: "",
+            password: "",
+            currentList: [],
+            savedList: [],
+          });
+          setIsAuthenticating(false);
+          getCurrentUser();
         }
       } else {
-        alert("Enter username and password");
+        toast.error("Enter username and password");
+        setIsAuthenticating(false);
       }
     } catch (error: any) {
       if (error.response) {
         if (error.response.status === 401) {
-          alert("Authentication Failed: Invalid username or password.");
+          toast.error("Authentication Failed: Invalid username or password.");
         } else {
-          alert(
+          toast.error(
             `"Login Error":
               ${error.response.data || "An error occurred."}`
           );
         }
       } else if (error.request) {
-        // The request was made, but no response was received
-        alert("No Response: Server did not respond. Please try again.");
+        toast.error("No Response: Server did not respond. Please try again.");
       } else {
-        // Something else happened while making the request
-        alert("Error: An unexpected error occurred.");
+        toast.error("Error: An unexpected error occurred.");
       }
-    } finally {
-      setCredentials({
-        username: "",
-        password: "",
-        currentList: [],
-        savedList: [],
-      });
+
       setIsAuthenticating(false);
-      getCurrentUser()
     }
   };
-
 
   return (
     <section
@@ -128,9 +129,9 @@ const SignUp = () => {
             <button
               onClick={signUp}
               disabled={isAuthenticating}
-              className="bg-orange-400 disabled:bg-orange-600 w-full rounded-lg font-bold h-12"
+              className="bg-orange-400 disabled:cursor-not-allowed disabled:bg-orange-200 w-full rounded-lg font-bold h-12"
             >
-              SignUp
+              {isAuthenticating ? "Signing up..." : "SignUp"}
             </button>
             <p className="text-sm text-center">
               Already have an account?{" "}

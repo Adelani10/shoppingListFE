@@ -3,6 +3,7 @@ import FormField from "./formField";
 import { mainItemTypes, useProjectContext } from "@/context";
 import axios from "axios";
 import { nanoid } from "nanoid";
+import { toast } from "react-toastify";
 
 export interface itemTypes {
   name: string;
@@ -43,10 +44,12 @@ function Form() {
           itemData
         );
 
-        res.status === 200 ? alert("Item Added") : alert("Failed");
+        res.status === 200
+          ? toast.success("Item Added")
+          : toast.error("Failed");
       }
     } catch (error: any) {
-      alert("Error: Cannot add item, try again!");
+      toast.error("Error: Cannot add item, try again!");
       throw new Error(error);
     } finally {
       setIsAdding(false);
@@ -76,8 +79,6 @@ function Form() {
         pathName.startsWith("/auth") ? "hidden" : "flex"
       } p-6 right-0 top-0 bottom-0 z-50 w-screen-minus-16 justify-between flex-col  `}
     >
-      
-
       <div className="w-full flex flex-col  gap-y-5">
         <h1 className="font-semibold mb-3">Add a new Item</h1>
         <FormField
@@ -153,7 +154,9 @@ function Form() {
         <button
           disabled={isAdding}
           type="submit"
-          className={`text-white disabled:bg-gray-400 rounded-xl font-semibold p-3 text-xs md:text-sm ${isAdding ? "bg-orange-700": "bg-orange-400"}   `}
+          className={`text-white disabled:bg-gray-400 rounded-xl font-semibold p-3 text-xs md:text-sm ${
+            isAdding ? "bg-orange-700" : "bg-orange-400"
+          }   `}
         >
           {isAdding ? "Saving..." : "Save & Send"}
         </button>

@@ -5,6 +5,7 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useState } from "react";
 import { IoMoonOutline, IoMoonSharp } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 export interface credType {
   username: string;
@@ -29,31 +30,35 @@ const LogIn = () => {
         );
         if (result.status === 200) {
           localStorage.setItem("authToken", result.data);
+          toast.success("Logged in successfully");
           router.push("/");
+          setCredentials({
+            username: "",
+            password: "",
+          });
+          setIsAuthenticating(false);
+          getCurrentUser();
         }
       } else {
-        alert("Enter username and password");
+        toast.error("Enter username and password");
+        setIsAuthenticating(false);
       }
     } catch (error: any) {
-      console.error("Error details:", error); // Log the complete error
       if (error.response) {
         if (error.response.status === 401) {
-          alert("Authentication Failed: Invalid username or password.");
+          toast.error("Authentication Failed: Invalid username or password.");
         } else {
-          alert(`Login Error: ${error.response.data || "An error occurred."}`);
+          toast.error(
+            `Login Error: ${error.response.data || "An error occurred."}`
+          );
         }
       } else if (error.request) {
-        alert("No Response: Server did not respond. Please try again.");
+        toast.error("No Response: Server did not respond. Please try again.");
       } else {
-        alert("Error: An unexpected error occurred.");
+        toast.error("Error: An unexpected error occurred.");
       }
-    } finally {
-      setCredentials({
-        username: "",
-        password: "",
-      });
+
       setIsAuthenticating(false);
-      getCurrentUser()
     }
   };
 
@@ -98,7 +103,7 @@ const LogIn = () => {
           />
           <InputField
             name="Password"
-            placeholder="Enter a strong password"
+            placeholder="Enter your password"
             value={credentials.password}
             handleChange={(e: any) => {
               setCredentials((prev) => {
@@ -115,9 +120,9 @@ const LogIn = () => {
             <button
               disabled={isAuthenticating}
               onClick={logIn}
-              className="bg-orange-400 disabled:bg-orange-600 w-full rounded-lg font-bold h-12"
+              className="bg-orange-400 disabled:bg-orange-200 disabled:cursor-not-allowed w-full rounded-lg font-bold h-12"
             >
-              Login
+              {isAuthenticating ? "Logging in..." : "Login"}
             </button>
             <p className="text-sm text-center">
               Don't have an account?{" "}

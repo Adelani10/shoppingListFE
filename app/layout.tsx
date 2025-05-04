@@ -4,6 +4,8 @@ import "./globals.css";
 import ProjectProvider from "@/context";
 import Nav from "./components/nav";
 import Render from "./components/siderBar/render";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,8 +19,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Shooping List",
-  description: "App for documenting grocery needs and history",
+  title: "Shopping List",
+  description: "App for documenting grocery needs and shopping history",
 };
 
 export default function RootLayout({
@@ -32,6 +34,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ProjectProvider>
+          <ToastContainer
+            className={"text-xs"}
+            position="top-right"
+            autoClose={3000}
+          />
           <Nav />
           {children}
           <Render />

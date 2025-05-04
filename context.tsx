@@ -13,6 +13,7 @@ import { redirect, usePathname, useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import axios from "axios";
 import * as jwtDecode from "jwt-decode";
+import { toast } from "react-toastify";
 
 interface AppContextInterface {
   darkmode: boolean;
@@ -107,7 +108,7 @@ const ProjectProvider = ({ children }: any) => {
   const getCurrentUser = async () => {
     const token = localStorage.getItem("authToken");
     if (!token) {
-      alert("Not signed in or Token expired, Sign in again");
+      toast.error("Not signed in or Token expired, Sign in again");
       throw new Error("Auth token not found");
     }
 
@@ -137,17 +138,17 @@ const ProjectProvider = ({ children }: any) => {
     } catch (error: any) {
       if (error.response) {
         if (error.response.status === 404) {
-          alert("Fetch Failed: Resource Error");
+          toast.error("Fetch Failed: Resource Error");
         } else {
-          alert(
+          toast.error(
             `Fetch Error:
               ${error.response.data || "An error occurred."}`
           );
         }
       } else if (error.request) {
-        alert("No Response: Server did not respond. Please try again.");
+        toast.error("No Response: Server did not respond. Please try again.");
       } else {
-        alert("Error: An unexpected error occurred.");
+        toast.error("Error: An unexpected error occurred.");
       }
     }
   };
@@ -268,7 +269,7 @@ const ProjectProvider = ({ children }: any) => {
       setSearchData(res.data);
       router.push(`/search/${text}`);
     } catch (error: any) {
-      alert("An error occurred");
+      toast.error("An error occurred");
       throw new Error(error);
     }
   };

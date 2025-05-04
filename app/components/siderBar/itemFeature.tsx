@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import Image from "next/image";
 import React, { useState } from "react";
 import { IoArrowBackOutline } from "react-icons/io5";
+import { toast } from "react-toastify";
 
 function ItemFeature() {
   const [isAddingToList, setIsAddingToList] = useState<boolean>(false);
@@ -64,7 +65,7 @@ function ItemFeature() {
       );
       setCurrentList(res.data);
     } catch (error) {
-      alert("Error: Couldn't add Item");
+      toast.error("Error: Couldn't add Item");
     } finally {
       setIsItemClicked(false);
       setIsAddingToList(false);
@@ -124,7 +125,7 @@ function ItemFeature() {
         <button
           disabled={isAddingToList === true}
           onClick={addItemToCurrentList}
-          className={`text-white rounded-xl disabled:bg-orange-700 disabled:text-gray-300 bg-orange-400 font-semibold p-3 text-sm tracking-wider`}
+          className={`text-white rounded-xl disabled:cursor-not-allowed disabled:bg-orange-200 disabled:text-gray-700 bg-orange-400 font-semibold p-3 text-sm tracking-wider`}
         >
           {isAddingToList ? "Adding..." : "Add to List"}
         </button>
