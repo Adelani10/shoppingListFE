@@ -77,10 +77,10 @@ function Form() {
           : "bg-[#F0F8FF] text-darkmodePrimary"
       } ${
         pathName.startsWith("/auth") ? "hidden" : "flex"
-      } p-6 right-0 top-0 bottom-0 z-50 w-screen-minus-16 justify-between flex-col  `}
+      } p-6  right-0 top-0 bottom-0 z-50 w-screen-minus-16  justify-evenly flex-col  `}
     >
       <div className="w-full flex flex-col  gap-y-5">
-        <h1 className="font-semibold mb-3">Add a new Item</h1>
+        <h1 className="font-semibold">Add a new Item</h1>
         <FormField
           name="Name"
           value={itemData.name}

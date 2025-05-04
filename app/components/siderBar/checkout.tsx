@@ -31,7 +31,6 @@ function CheckOut() {
     localDate: formattedDate,
   });
   const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [failedSave, setFailedSave] = useState<boolean>(false);
 
   const handleSave = async (e: FormEvent) => {
     e.preventDefault();
@@ -53,25 +52,28 @@ function CheckOut() {
             },
           }
         );
-        res.status === 200
-          ? toast.success("List successfully saved!")
-          : toast.error("Something went wrong, try again");
+        if (res.status === 200) {
+          toast.success("List successfully saved!");
+          setIsSaving(false);
+          setSaved({
+            id: nanoid(8),
+            title: "",
+            items: currentList,
+            completed: false,
+            localDate: formattedDate,
+          });
+          getCurrentUser();
+        } else {
+          toast.error("Something went wrong, try again");
+          setIsSaving(false);
+        }
       } else {
-        setFailedSave(true);
         toast.error("add a title");
+        setIsSaving(false);
       }
     } catch (error: any) {
       throw new Error("error", error);
     } finally {
-      setIsSaving(false);
-      setSaved({
-        id: nanoid(8),
-        title: "",
-        items: currentList,
-        completed: false,
-        localDate: formattedDate,
-      });
-      getCurrentUser();
     }
   };
 
@@ -210,11 +212,6 @@ function CheckOut() {
               Save
             </button>
           </form>
-          {failedSave && (
-            <p className="text-[10px] text-center text-red-500">
-              Please provide a name or populate your current list
-            </p>
-          )}
         </div>
       </div>
     </section>
